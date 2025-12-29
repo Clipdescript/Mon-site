@@ -1,0 +1,94 @@
+/* Styles pour les appareils mobiles */
+@media screen and (max-width: 768px) {
+  body {
+    padding: 16px;
+    height: auto;
+    min-height: 100vh;
+    display: block;
+  }
+
+  .app {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  .card {
+    padding: 10px 0;
+    margin: 6px 0;
+  }
+
+  .value {
+    font-size: 28px;
+  }
+
+  /* Ajustement de la section météo */
+  #weather {
+    padding: 0 8px;
+  }
+
+  #weather-icon {
+    width: 56px;
+    height: 56px;
+    font-size: 48px !important;
+  }
+
+  #weather-text {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  /* Ajustement de l'heure et de la date */
+  #time {
+    font-size: 32px;
+  }
+
+  #date, #dayOfYear {
+    font-size: 24px;
+  }
+
+  /* Ajustement des marges et espacements */
+  .label {
+    font-size: 12px;
+  }
+
+  /* Amélioration de la lisibilité sur petit écran */
+  .footer {
+    margin-top: 24px;
+    font-size: 12px;
+  }
+
+  /* Désactiver les animations trop gourmandes */
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  /* Ajustement pour la rotation de l'écran */
+  @media screen and (orientation: landscape) {
+    body {
+      padding: 8px;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      align-items: start;
+    }
+
+    h1 {
+      grid-column: 1 / -1;
+    }
+
+    .card {
+      margin: 0;
+      padding: 8px;
+    }
+  }
+}

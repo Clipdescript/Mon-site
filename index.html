@@ -4,7 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Horloge en temps réel</title>
+    <link rel="icon" type="image/png" href="Logo.png" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="portable.css" media="screen and (max-width: 768px)" />
+    <link rel="stylesheet" href="meteocons.css" />
   </head>
   <body>
     <main class="app" aria-live="polite">
@@ -25,8 +28,18 @@
         <div id="dayOfYear" class="value">--</div>
       </section>
 
+      <section class="card">
+        <div class="label">Météo à Mont-de-Marsan</div>
+        <div id="weather" class="value">
+          <div id="weather-icon-container" style="text-align: center; margin: 15px 0;">
+            <i id="weather-icon" class="mc" style="font-size: 64px;">B</i>
+          </div>
+          <div id="weather-text">Chargement des conditions météorologiques...</div>
+        </div>
+      </section>
+
       <footer class="footer">
-        <small>Mise à jour en temps réel</small>
+        <small></small>
       </footer>
     </main>
 
