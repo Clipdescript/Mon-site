@@ -39,8 +39,9 @@
   }
 
   #weather-text {
-    font-size: 14px;
+    font-size: inherit;
     line-height: 1.4;
+    font-size: 15px;
   }
 
   /* Ajustement de l'heure et de la date */
