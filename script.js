@@ -379,40 +379,57 @@ function getPageText() {
     return textContent.trim();
   }
 
-  // Titre principal
+  // Commencer par la salutation joyeuse
+  const now = new Date();
+  const greeting = getGreeting(now);
+  textContent += greeting + ', ';
+
+  // Titre principal (sauter si c'est une salutation simple)
   const titleElement = document.querySelector('h1');
-  if (titleElement) {
-    textContent += titleElement.textContent + '. ';
+  const titleText = titleElement ? titleElement.textContent : '';
+  const isSimpleGreeting = ['Bonjour', 'Bonne après-midi', 'Bonne soirée', 'Bonne fête'].includes(titleText);
+
+  if (titleElement && !isSimpleGreeting) {
+    textContent += titleText + '. ';
   }
 
   // Heure - format humain
   const timeElement = document.getElementById('time');
   if (timeElement) {
     const timeText = formatTimeForSpeech(timeElement.textContent);
-    textContent += 'Il est ' + timeText + '. ';
+    textContent += 'il est ' + timeText + '. ';
   }
 
   // Date - format humain
   const dateElement = document.getElementById('date');
   if (dateElement) {
-    textContent += 'Nous sommes ' + formatDateForSpeech(dateElement.textContent) + '. ';
+    textContent += 'nous sommes ' + formatDateForSpeech(dateElement.textContent) + '. ';
   }
 
   // Jour dans l'année
   const dayOfYearElement = document.getElementById('dayOfYear');
   if (dayOfYearElement) {
-    const dayMatch = dayOfYearElement.textContent.match(/(\d+)/);
-    if (dayMatch) {
-      const dayNum = parseInt(dayMatch[1]);
-      const ordinalSuffix = dayNum === 1 ? 'er' : 'ème';
-      textContent += 'C\'est le ' + dayNum + ordinalSuffix + ' jour de l\'année. ';
+    const text = dayOfYearElement.textContent;
+    // Vérifier si c'est le message spécial du Nouvel An
+    if (text.includes('Nouvel An')) {
+      // Rendre plus joyeux pour la voix
+      const yearMatch = text.match(/(\d{4})/);
+      const year = yearMatch ? yearMatch[1] : '';
+      textContent += 'vous êtes plus qu\'à un jour du Nouvel An ' + year + ' ! ';
+    } else {
+      const dayMatch = text.match(/(\d+)/);
+      if (dayMatch) {
+        const dayNum = parseInt(dayMatch[1]);
+        const ordinalSuffix = dayNum === 1 ? 'er' : 'ème';
+        textContent += 'nous sommes le ' + dayNum + ordinalSuffix + ' jour de l\'année. ';
+      }
     }
   }
 
   // Météo
   const weatherElement = document.getElementById('weather-text');
   if (weatherElement && weatherElement.textContent && !weatherElement.textContent.includes('Chargement')) {
-    textContent += formatWeatherForSpeech(weatherElement.textContent) + '. ';
+    textContent += 'Et ' + formatWeatherForSpeech(weatherElement.textContent.toLowerCase()) + '. ';
   }
 
   // Événements du jour
@@ -426,9 +443,9 @@ function getPageText() {
     });
 
     if (eventTexts.length > 0) {
-      textContent += 'Événements du jour : ';
+      textContent += 'Voici les événements du jour : ';
       eventTexts.forEach((event, index) => {
-        textContent += event;
+        textContent += event.toLowerCase();
         if (index < eventTexts.length - 1) {
           textContent += ', ';
         } else {
@@ -516,11 +533,57 @@ function formatDateForSpeech(dateString) {
 
 // Fonction pour formater la météo pour la synthèse vocale
 function formatWeatherForSpeech(weatherText) {
-  // Remplacer les degrés Celsius par "degrés Celsius"
-  let formatted = weatherText.replace(/°C/g, ' degrés Celsius');
+  let formatted = weatherText;
 
-  // Améliorer les vitesses de vent
+  // Extraire la température
+  const tempMatch = formatted.match(/(\d+)°C/);
+  const temp = tempMatch ? tempMatch[1] : null;
+
+  // Extraire la vitesse du vent
+  const windMatch = formatted.match(/(\d+)\s*km\/h/);
+  const windSpeed = windMatch ? parseInt(windMatch[1]) : null;
+
+  // Décrire la sensation thermique
+  let tempDescription = '';
+  if (temp) {
+    const tempNum = parseInt(temp);
+    if (tempNum <= 0) tempDescription = 'très froid';
+    else if (tempNum <= 5) tempDescription = 'froid';
+    else if (tempNum <= 15) tempDescription = 'frais';
+    else if (tempNum <= 25) tempDescription = 'agréable';
+    else if (tempNum <= 30) tempDescription = 'chaud';
+    else tempDescription = 'très chaud';
+  }
+
+  // Décrire la vitesse du vent
+  let windDescription = '';
+  if (windSpeed !== null) {
+    if (windSpeed < 10) windDescription = 'très léger';
+    else if (windSpeed < 20) windDescription = 'léger';
+    else if (windSpeed < 30) windDescription = 'modéré';
+    else if (windSpeed < 50) windDescription = 'fort';
+    else windDescription = 'très fort';
+  }
+
+  // Reconstruire le texte de manière plus naturelle
+  formatted = formatted.replace(/°C/g, ' degrés Celsius');
   formatted = formatted.replace(/(\d+)\s*km\/h/g, '$1 kilomètres par heure');
+
+  // Ajouter les descriptions si on a les infos
+  if (temp && windSpeed !== null) {
+    formatted = formatted.replace(
+      /Actuellement à ([^,]+), temps ([^,]+) avec un vent de (\d+) kilomètres par heure/,
+      `Il fait actuellement $3 degrés Celsius à $1, ce qui est $tempDescription, avec un temps $2 et un vent $windDescription de $3 kilomètres par heure`
+    );
+  } else if (temp) {
+    formatted = formatted.replace(
+      /Actuellement à ([^,]+), temps ([^,]+)/,
+      `Il fait actuellement $3 degrés Celsius à $1, ce qui est $tempDescription, avec un temps $2`
+    );
+  }
+
+  // Rendre plus agréable à écouter
+  formatted = formatted.replace(/temps /g, 'ciel ');
 
   return formatted;
 }
