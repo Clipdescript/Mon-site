@@ -13,6 +13,32 @@ function dayOfYear(date) {
   return Math.floor(diff / oneDay) + 1;
 }
 
+// Fonction pour obtenir la salutation appropriée selon l'heure et la saison
+function getGreeting(now) {
+  const hour = now.getHours();
+  const month = now.getMonth();
+  const day = now.getDate();
+
+  // Périodes de fête (décembre à janvier)
+  const isHolidaySeason = (month === 11 && day >= 20) || (month === 0 && day <= 5);
+
+  let timeGreeting;
+  if (hour >= 6 && hour < 12) {
+    timeGreeting = "Bonjour";
+  } else if (hour >= 12 && hour < 18) {
+    timeGreeting = "Bonne après-midi";
+  } else {
+    timeGreeting = "Bonne soirée";
+  }
+
+  // Si on est en période de fête, remplacer par "Bonne fête"
+  if (isHolidaySeason) {
+    return "Bonne fête";
+  }
+
+  return timeGreeting;
+}
+
 function updateClock() {
   const now = new Date();
 
@@ -23,6 +49,7 @@ function updateClock() {
   const timeEl = document.getElementById("time");
   const dateEl = document.getElementById("date");
   const doyEl = document.getElementById("dayOfYear");
+  const titleEl = document.querySelector("h1");
 
   if (timeEl) timeEl.textContent = `${hh}:${mm}:${ss}`;
 
@@ -35,8 +62,22 @@ function updateClock() {
 
   if (dateEl) dateEl.textContent = dateFormatter.format(now);
 
+  // Mettre à jour le titre avec la salutation appropriée
+  if (titleEl) {
+    titleEl.textContent = getGreeting(now);
+  }
+
   const doy = dayOfYear(now);
-  if (doyEl) doyEl.textContent = `Nous sommes le ${doy}${doy === 1 ? 'er' : 'e'} jour de l'année`;
+  if (doyEl) {
+    // Vérifier si c'est le 30 décembre (2 jours avant le Nouvel An)
+    const isNewYearsEve = now.getMonth() === 11 && now.getDate() === 30;
+    if (isNewYearsEve) {
+      const nextYear = now.getFullYear() + 1;
+      doyEl.textContent = `On est à 1 jour du Nouvel An ${nextYear}`;
+    } else {
+      doyEl.textContent = `Nous sommes le ${doy}${doy === 1 ? 'er' : 'e'} jour de l'année`;
+    }
+  }
 }
 
 // Fonction pour obtenir l'icône météo appropriée
