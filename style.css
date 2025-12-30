@@ -37,6 +37,49 @@
   white-space: nowrap;
 }
 
+/* Bouton de sélection de date */
+.date-picker-toggle {
+  position: fixed;
+  top: 15px;
+  left: 60px;
+  cursor: pointer;
+  z-index: 1000;
+  background-color: var(--settings-bg);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
+}
+
+.date-picker-toggle:hover {
+  background-color: var(--settings-bg-hover);
+  width: 180px;
+  border-radius: 2px;
+  justify-content: flex-start;
+  padding-left: 12px;
+}
+
+.date-picker-toggle:hover::after {
+  content: attr(title);
+  position: absolute;
+  left: 48px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Déplacer le bouton calendrier quand on survole le bouton mode sombre pour éviter la superposition */
+.theme-toggle:hover ~ .date-picker-toggle {
+  left: 220px;
+}
+
 /* Bouton des paramètres */
 .settings-icon {
   position: fixed;
@@ -328,4 +371,162 @@ h1 {
   .holiday-image {
     height: 250px;
   }
+}
+
+/* Modal de sélection de date */
+.date-picker-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.date-picker-content {
+  background: var(--card);
+  border-radius: 6px;
+  padding: 0;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+  overflow: hidden;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.date-picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.date-picker-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  flex: 1;
+  text-align: center;
+}
+
+.date-picker-nav-btn,
+.date-picker-close-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text);
+  padding: 8px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+  width: 40px;
+  height: 40px;
+}
+
+.date-picker-nav-btn:hover:not(:disabled),
+.date-picker-close-btn:hover {
+  background-color: var(--settings-bg);
+}
+
+.date-picker-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.date-picker-body {
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.date-display {
+  margin-bottom: 30px;
+}
+
+.date-label {
+  font-size: 14px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.date-day {
+  font-size: 48px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 10px 0;
+  line-height: 1;
+}
+
+.date-month {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text);
+  margin: 10px 0;
+  text-transform: capitalize;
+}
+
+.date-year {
+  font-size: 20px;
+  color: var(--muted);
+  margin: 10px 0;
+}
+
+.date-picker-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.date-picker-action-btn {
+  background-color: var(--settings-bg);
+  border: none;
+  color: var(--text);
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.date-picker-action-btn:hover {
+  background-color: var(--settings-bg-hover);
+  transform: translateY(-1px);
+}
+
+.date-picker-action-btn .material-icons {
+  font-size: 20px;
 }

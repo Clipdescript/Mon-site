@@ -39,8 +39,14 @@ function getGreeting(now) {
   return timeGreeting;
 }
 
+// Variables globales pour le sélecteur de date
+let selectedDate = new Date();
+let dateHistory = []; // Historique des dates visitées (pour le retour en arrière)
+let currentHistoryIndex = -1; // Index actuel dans l'historique
+let isDatePickerActive = false; // Indique si une date personnalisée est active
+
 function updateClock() {
-  const now = new Date();
+  const now = isDatePickerActive ? selectedDate : new Date();
 
   const hh = pad2(now.getHours());
   const mm = pad2(now.getMinutes());
@@ -638,6 +644,7 @@ function initTheme() {
       themeIcon.textContent = 'light_mode';
       localStorage.setItem('theme', 'dark');
     }
+    
   });
 
   // Mettre à jour le thème si les préférences système changent (uniquement si aucun thème n'est sauvegardé)
@@ -680,11 +687,160 @@ function registerServiceWorker() {
   }
 }
 
+// Gestion du sélecteur de date
+function initDatePicker() {
+  const datePickerToggle = document.querySelector('.date-picker-toggle');
+  const datePickerModal = document.getElementById('date-picker-modal');
+  const datePickerClose = document.getElementById('date-picker-close');
+  const datePickerNext = document.getElementById('date-picker-next');
+  const datePickerBack = document.getElementById('date-picker-back');
+  
+  // Réinitialiser à la date actuelle
+  selectedDate = new Date();
+  dateHistory = [new Date(selectedDate)];
+  currentHistoryIndex = 0;
+  isDatePickerActive = false;
+
+  // Ouvrir la modal
+  datePickerToggle.addEventListener('click', () => {
+    selectedDate = new Date();
+    dateHistory = [new Date(selectedDate)];
+    currentHistoryIndex = 0;
+    isDatePickerActive = false;
+    updateDatePickerDisplay();
+    datePickerModal.style.display = 'flex';
+  });
+
+  // Fermer la modal
+  datePickerClose.addEventListener('click', () => {
+    datePickerModal.style.display = 'none';
+    // Ne pas remettre le bouton à sa position d'origine ici
+  });
+
+  // Fermer en cliquant sur l'overlay
+  datePickerModal.addEventListener('click', (e) => {
+    if (e.target === datePickerModal) {
+      datePickerModal.style.display = 'none';
+      // Ne pas remettre le bouton à sa position d'origine ici
+    }
+  });
+
+  // Jour suivant
+  datePickerNext.addEventListener('click', () => {
+    const nextDate = new Date(selectedDate);
+    nextDate.setDate(nextDate.getDate() + 1);
+    selectedDate = nextDate;
+    
+    // Ajouter à l'historique
+    currentHistoryIndex++;
+    dateHistory = dateHistory.slice(0, currentHistoryIndex + 1);
+    dateHistory.push(new Date(selectedDate));
+    
+    isDatePickerActive = true;
+    updateDatePickerDisplay();
+    updateDisplayWithSelectedDate();
+  });
+
+  // Retour en arrière
+  datePickerBack.addEventListener('click', () => {
+    if (currentHistoryIndex > 0) {
+      currentHistoryIndex--;
+      selectedDate = new Date(dateHistory[currentHistoryIndex]);
+      
+      // Si on revient à la date d'aujourd'hui, désactiver le mode date picker
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const selected = new Date(selectedDate);
+      selected.setHours(0, 0, 0, 0);
+      
+      if (selected.getTime() === today.getTime()) {
+        isDatePickerActive = false;
+      }
+      
+      updateDatePickerDisplay();
+      updateDisplayWithSelectedDate();
+    }
+  });
+}
+
+function updateDatePickerDisplay() {
+  const dayEl = document.getElementById('selected-day');
+  const monthEl = document.getElementById('selected-month');
+  const yearEl = document.getElementById('selected-year');
+  const backBtn = document.getElementById('date-picker-back');
+  const labelEl = document.querySelector('.date-label');
+  
+  const day = selectedDate.getDate();
+  const monthNames = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin',
+    'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+  const month = monthNames[selectedDate.getMonth()];
+  const year = selectedDate.getFullYear();
+  
+  // Vérifier si c'est aujourd'hui
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const selected = new Date(selectedDate);
+  selected.setHours(0, 0, 0, 0);
+  const isToday = selected.getTime() === today.getTime();
+  
+  if (dayEl) dayEl.textContent = day;
+  if (monthEl) monthEl.textContent = month;
+  if (yearEl) yearEl.textContent = year;
+  if (labelEl) labelEl.textContent = isToday ? 'Aujourd\'hui' : 'Jour sélectionné';
+  
+  // Activer/désactiver le bouton retour
+  if (backBtn) {
+    backBtn.disabled = currentHistoryIndex <= 0;
+  }
+}
+
+function updateDisplayWithSelectedDate() {
+  const dateEl = document.getElementById("date");
+  const doyEl = document.getElementById("dayOfYear");
+  const titleEl = document.querySelector("h1");
+  const holidayImage = document.querySelector(".holiday-image");
+  
+  // Formater la date
+  const dateFormatter = new Intl.DateTimeFormat("fr-FR", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "2-digit",
+  });
+  
+  if (dateEl) dateEl.textContent = dateFormatter.format(selectedDate);
+  
+  // Mettre à jour le titre avec la salutation
+  if (titleEl) {
+    titleEl.textContent = getGreeting(selectedDate);
+  }
+  
+  // Afficher l'image de fête
+  if (holidayImage) {
+    const isHolidayPeriod = selectedDate.getMonth() === 11 && 
+      (selectedDate.getDate() === 30 || selectedDate.getDate() === 31);
+    holidayImage.style.display = isHolidayPeriod ? 'block' : 'none';
+  }
+  
+  // Mettre à jour le jour dans l'année
+  const doy = dayOfYear(selectedDate);
+  if (doyEl) {
+    const isNewYearsEve = selectedDate.getMonth() === 11 && selectedDate.getDate() === 30;
+    if (isNewYearsEve) {
+      const nextYear = selectedDate.getFullYear() + 1;
+      doyEl.textContent = `On est à 1 jour du Nouvel An ${nextYear}`;
+    } else {
+      doyEl.textContent = `Nous sommes le ${doy}${doy === 1 ? 'er' : 'e'} jour de l'année`;
+    }
+  }
+}
+
 // Initialiser l'horloge et le thème au chargement du DOM
 document.addEventListener('DOMContentLoaded', () => {
   updateClock();
   initTheme();
   initVolumeToggle();
+  initDatePicker();
   registerServiceWorker();
   fetchWeather();
 

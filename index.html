@@ -13,8 +13,40 @@
     <div class="theme-toggle" title="Changer de thème">
       <span class="material-icons">dark_mode</span>
     </div>
+    <div class="date-picker-toggle" title="Choisir le jour">
+      <span class="material-icons">calendar_today</span>
+    </div>
     <div class="settings-icon" title="Activer/Désactiver le son">
       <span class="material-icons">music_note</span>
+    </div>
+    
+    <!-- Modal de sélection de date -->
+    <div id="date-picker-modal" class="date-picker-modal" style="display: none;">
+      <div class="date-picker-content">
+        <div class="date-picker-header">
+          <button id="date-picker-back" class="date-picker-nav-btn" disabled>
+            <span class="material-icons">arrow_back</span>
+          </button>
+          <h2>Choisir le jour</h2>
+          <button id="date-picker-close" class="date-picker-close-btn">
+            <span class="material-icons">close</span>
+          </button>
+        </div>
+        <div class="date-picker-body">
+          <div class="date-display">
+            <div class="date-label">Aujourd'hui</div>
+            <div id="selected-day" class="date-day">--</div>
+            <div id="selected-month" class="date-month">--</div>
+            <div id="selected-year" class="date-year">--</div>
+          </div>
+          <div class="date-picker-actions">
+            <button id="date-picker-next" class="date-picker-action-btn">
+              <span class="material-icons">arrow_forward</span>
+              Jour suivant
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
     <img src="nouvel-an.jpg" alt="Joyeux Noël et Bonne Année" class="holiday-image" style="display: none;">
     <main class="app" aria-live="polite">
