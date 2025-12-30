@@ -65,16 +65,7 @@ function updateClock() {
 
   // Mettre à jour le titre avec la salutation appropriée
   if (titleEl) {
-    const greeting = getGreeting(now);
-    // Appliquer les couleurs spéciales UNIQUEMENT les 30 et 31 décembre
-    const isDec30Or31 = now.getMonth() === 11 && (now.getDate() === 30 || now.getDate() === 31);
-    if (greeting === "Bonne fête" && isDec30Or31) {
-      // Style avec couleurs spéciales (jaune doux pour "Bonne", noir pour "fête")
-      titleEl.innerHTML = '<span class="bonne-text">Bonne</span> <span class="fete-text">fête</span>';
-    } else {
-      // Style normal pour toutes les autres dates
-      titleEl.textContent = greeting;
-    }
+    titleEl.textContent = getGreeting(now);
   }
 
   // Afficher l'image de fête seulement les 30 et 31 décembre
