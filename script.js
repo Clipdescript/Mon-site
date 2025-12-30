@@ -270,13 +270,220 @@ function initVolumeToggle() {
 
     localStorage.setItem('volume-enabled', newState.toString());
 
-    // Ici vous pouvez ajouter la logique pour activer/désactiver le son réel
+    // Si on active le volume, lire le contenu de la page
+    if (newState) {
+      speakPageContent();
+    } else {
+      // Si on désactive, arrêter la synthèse vocale
+      if ('speechSynthesis' in window) {
+        speechSynthesis.cancel();
+      }
+    }
+
     console.log('Volume:', newState ? 'activé' : 'désactivé');
   });
 }
 
 function updateVolumeIcon(iconElement, isEnabled) {
-  iconElement.textContent = isEnabled ? 'music_note' : 'music_off';
+  iconElement.textContent = isEnabled ? 'volume_up' : 'volume_off';
+}
+
+// Fonction pour lire le contenu de la page avec synthèse vocale
+function speakPageContent() {
+  // Vérifier si la synthèse vocale est supportée
+  if ('speechSynthesis' in window) {
+    // Arrêter toute synthèse en cours
+    speechSynthesis.cancel();
+
+    // Récupérer tout le texte de la page
+    const pageText = getPageText();
+
+    // Créer l'objet de synthèse vocale
+    const utterance = new SpeechSynthesisUtterance(pageText);
+
+    // Configurer la voix (en français si disponible)
+    const voices = speechSynthesis.getVoices();
+    const frenchVoice = voices.find(voice => voice.lang.startsWith('fr'));
+
+    if (frenchVoice) {
+      utterance.voice = frenchVoice;
+    }
+
+    // Configurer les paramètres
+    utterance.rate = 0.9; // Vitesse légèrement réduite
+    utterance.pitch = 1; // Tonalité normale
+    utterance.volume = 0.8; // Volume à 80%
+
+    // Lire le texte
+    speechSynthesis.speak(utterance);
+  } else {
+    console.log('Synthèse vocale non supportée par ce navigateur');
+  }
+}
+
+// Fonction pour extraire le texte de la page de manière naturelle
+function getPageText() {
+  let textContent = '';
+
+  // Titre principal
+  const titleElement = document.querySelector('h1');
+  if (titleElement) {
+    textContent += titleElement.textContent + '. ';
+  }
+
+  // Heure - format humain
+  const timeElement = document.getElementById('time');
+  if (timeElement) {
+    const timeText = formatTimeForSpeech(timeElement.textContent);
+    textContent += 'Il est ' + timeText + '. ';
+  }
+
+  // Date - format humain
+  const dateElement = document.getElementById('date');
+  if (dateElement) {
+    textContent += 'Nous sommes ' + formatDateForSpeech(dateElement.textContent) + '. ';
+  }
+
+  // Jour dans l'année
+  const dayOfYearElement = document.getElementById('dayOfYear');
+  if (dayOfYearElement) {
+    const dayMatch = dayOfYearElement.textContent.match(/(\d+)/);
+    if (dayMatch) {
+      const dayNum = parseInt(dayMatch[1]);
+      const ordinalSuffix = dayNum === 1 ? 'er' : 'ème';
+      textContent += 'C\'est le ' + dayNum + ordinalSuffix + ' jour de l\'année. ';
+    }
+  }
+
+  // Météo
+  const weatherElement = document.getElementById('weather-text');
+  if (weatherElement && weatherElement.textContent && !weatherElement.textContent.includes('Chargement')) {
+    textContent += formatWeatherForSpeech(weatherElement.textContent) + '. ';
+  }
+
+  // Événements du jour
+  const eventsContainer = document.getElementById('events-container');
+  if (eventsContainer && eventsContainer.children.length > 0) {
+    const eventTexts = [];
+    Array.from(eventsContainer.children).forEach(child => {
+      if (child.textContent && child.textContent.trim() && !child.textContent.includes('Aucun')) {
+        eventTexts.push(child.textContent.trim());
+      }
+    });
+
+    if (eventTexts.length > 0) {
+      textContent += 'Événements du jour : ';
+      eventTexts.forEach((event, index) => {
+        textContent += event;
+        if (index < eventTexts.length - 1) {
+          textContent += ', ';
+        } else {
+          textContent += '. ';
+        }
+      });
+    }
+  }
+
+  return textContent.trim();
+}
+
+// Fonction pour formater l'heure pour la synthèse vocale
+function formatTimeForSpeech(timeString) {
+  const parts = timeString.split(':');
+  if (parts.length === 3) {
+    const hours = parseInt(parts[0]);
+    const minutes = parseInt(parts[1]);
+    const seconds = parseInt(parts[2]);
+
+    let timeText = '';
+
+    // Heures
+    if (hours === 0) {
+      timeText += 'minuit';
+    } else if (hours === 12) {
+      timeText += 'midi';
+    } else if (hours === 1) {
+      timeText += 'une heure';
+    } else {
+      timeText += numberToWords(hours) + ' heure' + (hours > 1 ? 's' : '');
+    }
+
+    // Minutes
+    if (minutes > 0) {
+      if (minutes === 1) {
+        timeText += ' une';
+      } else {
+        timeText += ' ' + numberToWords(minutes);
+      }
+    }
+
+    // Secondes (optionnel, seulement si demandé)
+    // timeText += ' et ' + numberToWords(seconds) + ' seconde' + (seconds > 1 ? 's' : '');
+
+    return timeText;
+  }
+  return timeString;
+}
+
+// Fonction pour formater la date pour la synthèse vocale
+function formatDateForSpeech(dateString) {
+  // Exemple: "mardi 31 décembre 2024"
+  const parts = dateString.split(' ');
+  if (parts.length >= 4) {
+    const dayOfWeek = parts[0];
+    const day = parseInt(parts[1]);
+    const month = parts[2];
+    const year = parts[3];
+
+    const dayWord = numberToWords(day);
+
+    // Mapping des mois
+    const monthNames = {
+      'janvier': 'janvier',
+      'février': 'février',
+      'mars': 'mars',
+      'avril': 'avril',
+      'mai': 'mai',
+      'juin': 'juin',
+      'juillet': 'juillet',
+      'août': 'août',
+      'septembre': 'septembre',
+      'octobre': 'octobre',
+      'novembre': 'novembre',
+      'décembre': 'décembre'
+    };
+
+    const monthWord = monthNames[month.toLowerCase()] || month;
+
+    return dayOfWeek + ' ' + dayWord + ' ' + monthWord + ' ' + year;
+  }
+  return dateString;
+}
+
+// Fonction pour formater la météo pour la synthèse vocale
+function formatWeatherForSpeech(weatherText) {
+  // Remplacer les degrés Celsius par "degrés Celsius"
+  let formatted = weatherText.replace(/°C/g, ' degrés Celsius');
+
+  // Améliorer les vitesses de vent
+  formatted = formatted.replace(/(\d+)\s*km\/h/g, '$1 kilomètres par heure');
+
+  return formatted;
+}
+
+// Fonction pour convertir les nombres en mots (pour les nombres simples)
+function numberToWords(num) {
+  const numberWords = {
+    1: 'premier', 2: 'deux', 3: 'trois', 4: 'quatre', 5: 'cinq',
+    6: 'six', 7: 'sept', 8: 'huit', 9: 'neuf', 10: 'dix',
+    11: 'onze', 12: 'douze', 13: 'treize', 14: 'quatorze', 15: 'quinze',
+    16: 'seize', 17: 'dix-sept', 18: 'dix-huit', 19: 'dix-neuf', 20: 'vingt',
+    21: 'vingt-et-un', 22: 'vingt-deux', 23: 'vingt-trois', 24: 'vingt-quatre',
+    25: 'vingt-cinq', 26: 'vingt-six', 27: 'vingt-sept', 28: 'vingt-huit',
+    29: 'vingt-neuf', 30: 'trente', 31: 'trente-et-un'
+  };
+
+  return numberWords[num] || num.toString();
 }
 
 // Gestion du thème
