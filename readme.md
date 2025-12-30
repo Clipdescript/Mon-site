@@ -1,7 +1,3 @@
-# WARP.md
-
-This file provides guidance to WARP (warp.dev) when working with code in this repository.
-
 ## Project Overview
 Site web d'horloge en temps réel avec affichage de la météo pour Mont-de-Marsan. Le site utilise l'API Open-Meteo pour les données météorologiques.
 
