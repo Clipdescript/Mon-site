@@ -50,6 +50,7 @@ function updateClock() {
   const dateEl = document.getElementById("date");
   const doyEl = document.getElementById("dayOfYear");
   const titleEl = document.querySelector("h1");
+  const holidayImage = document.querySelector(".holiday-image");
 
   if (timeEl) timeEl.textContent = `${hh}:${mm}:${ss}`;
 
@@ -65,6 +66,12 @@ function updateClock() {
   // Mettre à jour le titre avec la salutation appropriée
   if (titleEl) {
     titleEl.textContent = getGreeting(now);
+  }
+
+  // Afficher l'image de fête seulement les 30 et 31 décembre
+  if (holidayImage) {
+    const isHolidayPeriod = now.getMonth() === 11 && (now.getDate() === 30 || now.getDate() === 31);
+    holidayImage.style.display = isHolidayPeriod ? 'block' : 'none';
   }
 
   const doy = dayOfYear(now);

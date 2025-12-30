@@ -257,3 +257,44 @@ h1 {
     font-size: 1.8rem;
   }
 }
+
+/* Image de fête */
+.holiday-image {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 200px;
+  width: auto;
+  object-fit: contain;
+  z-index: 10;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.holiday-image::after {
+  content: '';
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  background: radial-gradient(circle, #ff6b6b, #ff4757);
+  border-radius: 50%;
+  box-shadow: 0 0 15px rgba(255, 107, 107, 0.8);
+  z-index: 15;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Responsive pour grands écrans */
+@media screen and (min-width: 1200px) {
+  .holiday-image {
+    height: 250px;
+  }
+}
