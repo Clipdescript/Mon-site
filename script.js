@@ -244,12 +244,47 @@ async function fetchWeather() {
   }
 }
 
+// Gestion du volume (haut-parleur)
+function initVolumeToggle() {
+  const volumeToggle = document.querySelector('.settings-icon');
+  const volumeIcon = volumeToggle.querySelector('.material-icons');
+
+  // Vérifier l'état sauvegardé du volume ou utiliser activé par défaut
+  const savedVolumeState = localStorage.getItem('volume-enabled');
+  const isVolumeEnabled = savedVolumeState !== null ? savedVolumeState === 'true' : true;
+
+  // Appliquer l'état initial
+  updateVolumeIcon(volumeIcon, isVolumeEnabled);
+
+  // Gérer le toggle au clic
+  volumeToggle.addEventListener('click', () => {
+    const currentState = localStorage.getItem('volume-enabled') !== 'false';
+    const newState = !currentState;
+
+    // Animation de clic
+    volumeIcon.style.transform = 'scale(0.8)';
+    setTimeout(() => {
+      volumeIcon.style.transform = '';
+      updateVolumeIcon(volumeIcon, newState);
+    }, 100);
+
+    localStorage.setItem('volume-enabled', newState.toString());
+
+    // Ici vous pouvez ajouter la logique pour activer/désactiver le son réel
+    console.log('Volume:', newState ? 'activé' : 'désactivé');
+  });
+}
+
+function updateVolumeIcon(iconElement, isEnabled) {
+  iconElement.textContent = isEnabled ? 'music_note' : 'music_off';
+}
+
 // Gestion du thème
 function initTheme() {
   const themeToggle = document.querySelector('.theme-toggle');
   const themeIcon = themeToggle.querySelector('.material-icons');
   const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-  
+
   // Vérifier le thème sauvegardé ou utiliser les préférences système
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
@@ -259,7 +294,7 @@ function initTheme() {
     document.documentElement.setAttribute('data-theme', 'light');
     themeIcon.textContent = 'dark_mode';
   }
-  
+
   // Gérer le changement de thème au clic
   themeToggle.addEventListener('click', () => {
     const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -273,7 +308,7 @@ function initTheme() {
       localStorage.setItem('theme', 'dark');
     }
   });
-  
+
   // Mettre à jour le thème si les préférences système changent (uniquement si aucun thème n'est sauvegardé)
   prefersDarkScheme.addEventListener('change', (e) => {
     if (!localStorage.getItem('theme')) {
@@ -292,11 +327,12 @@ function initTheme() {
 document.addEventListener('DOMContentLoaded', () => {
   updateClock();
   initTheme();
+  initVolumeToggle();
   fetchWeather();
-  
+
   // Mettre à jour l'horloge toutes les secondes
   setInterval(updateClock, 1000);
-  
+
   // Mettre à jour la météo toutes les 30 minutes
   setInterval(fetchWeather, 30 * 60 * 1000);
 });

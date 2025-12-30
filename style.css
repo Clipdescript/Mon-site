@@ -43,6 +43,7 @@
 
 .material-icons {
   font-size: 24px;
+  transition: transform 0.2s ease;
 }
 
 /* Styles pour le thème clair par défaut */
