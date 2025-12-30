@@ -5,7 +5,18 @@
   right: 15px;
   cursor: pointer;
   z-index: 1000;
-  color: var(--text);
+  background-color: rgba(200, 200, 200, 0.3);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.settings-icon:hover {
+  background-color: rgba(200, 200, 200, 0.5);
 }
 
 .material-icons {
