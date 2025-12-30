@@ -89,29 +89,100 @@ function getWeatherIcon(weatherCode, isDay = true) {
   return iconMap[weatherCode] || 'Soleil sans nuage.svg';
 }
 
+// Fonction pour obtenir la position actuelle
+function getCurrentPosition() {
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      reject(new Error('La géolocalisation n\'est pas supportée par ce navigateur'));
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        resolve({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        });
+      },
+      (error) => {
+        let errorMessage = 'Erreur de géolocalisation';
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            errorMessage = 'Accès à la localisation refusé par l\'utilisateur';
+            break;
+          case error.POSITION_UNAVAILABLE:
+            errorMessage = 'Position indisponible';
+            break;
+          case error.TIMEOUT:
+            errorMessage = 'Délai d\'attente dépassé pour obtenir la position';
+            break;
+        }
+        reject(new Error(errorMessage));
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 300000 // 5 minutes
+      }
+    );
+  });
+}
+
+// Fonction pour obtenir le nom de la ville via reverse geocoding
+async function getCityName(latitude, longitude) {
+  try {
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10&addressdetails=1`
+    );
+
+    const data = await response.json();
+
+    if (data && data.address) {
+      // Essayer différents champs pour obtenir le nom de la ville
+      const city = data.address.city ||
+                   data.address.town ||
+                   data.address.village ||
+                   data.address.municipality ||
+                   data.address.hamlet ||
+                   data.display_name.split(',')[0];
+
+      return city || 'votre position';
+    }
+
+    return 'votre position';
+  } catch (error) {
+    console.error('Erreur lors de la récupération du nom de ville:', error);
+    return 'votre position';
+  }
+}
+
 // Fonction pour récupérer la météo
 async function fetchWeather() {
   try {
-    // Coordonnées de Mont-de-Marsan
-    const latitude = 43.8906;
-    const longitude = -0.4976;
-    
+    // Obtenir la position actuelle
+    const position = await getCurrentPosition();
+    const { latitude, longitude } = position;
+
+    // Obtenir le nom de la ville en parallèle avec la météo
+    const cityNamePromise = getCityName(latitude, longitude);
+
     const response = await fetch(
       `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code,wind_speed_10m&timezone=auto&forecast_days=1`
     );
-    
+
     const data = await response.json();
-    
+    const cityName = await cityNamePromise;
+
     if (data && data.current) {
       const current = data.current;
       const temp = Math.round(current.temperature_2m);
       const weatherCode = current.weather_code;
       const windSpeed = Math.round(current.wind_speed_10m);
-      
+
       // Déterminer si c'est le jour ou la nuit
       const hours = new Date().getHours();
       const isDay = hours > 6 && hours < 20; // Jour entre 6h et 20h
-      
+
       // Déterminer la description météo en français
       const descriptions = {
         0: 'ciel dégagé',
@@ -143,27 +214,33 @@ async function fetchWeather() {
         96: 'orage avec grêle légère',
         99: 'orage avec forte grêle'
       };
-      
+
       const description = descriptions[weatherCode] || 'conditions variables';
-      
+
       // Mettre à jour l'icône météo
       const weatherIcon = document.getElementById('weather-icon');
       const iconFile = getWeatherIcon(weatherCode, isDay);
       weatherIcon.innerHTML = `<img src="${iconFile}" alt="Météo" style="width: 80px; height: 80px; display: block;">`;
-      
+
       // Mettre à jour la température
       const tempElement = document.getElementById('weather-temp');
       if (tempElement) {
         tempElement.textContent = `${Math.round(temp)}°C`;
       }
-      
-      // Mise à jour du texte descriptif
-      document.getElementById('weather-text').textContent = 
-        `Actuellement à Mont-de-Marsan, temps ${description} avec un vent de ${windSpeed} km/h.`;
+
+      // Mise à jour du texte descriptif avec le nom de la ville
+      document.getElementById('weather-text').textContent =
+        `Actuellement à ${cityName}, temps ${description} avec un vent de ${windSpeed} km/h.`;
     }
   } catch (error) {
     console.error('Erreur lors de la récupération de la météo:', error);
-    document.getElementById('weather-text').textContent = 'Données météo indisponibles';
+
+    // Gestion spécifique des erreurs de géolocalisation
+    if (error.message.includes('géolocalisation') || error.message.includes('localisation')) {
+      document.getElementById('weather-text').textContent = `Erreur de localisation: ${error.message}`;
+    } else {
+      document.getElementById('weather-text').textContent = 'Données météo indisponibles';
+    }
   }
 }
 
