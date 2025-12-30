@@ -39,55 +39,54 @@ function updateClock() {
   if (doyEl) doyEl.textContent = `Nous sommes le ${doy}${doy === 1 ? 'er' : 'e'} jour de l'année`;
 }
 
-// Fonction pour obtenir l'icône Meteocons appropriée
-function getMeteoconIcon(weatherCode, isDay = true) {
-  // Mappage des codes Open-Meteo vers les icônes Meteocons
-  // Format : { codeOpenMeteo: 'caractèreMeteocons' }
+// Fonction pour obtenir l'icône météo appropriée
+function getWeatherIcon(weatherCode, isDay = true) {
+  // Mappage des codes Open-Meteo vers les fichiers SVG
   const iconMap = {
     // Ciel clair
-    0: isDay ? 'B' : 'C',
+    0: isDay ? 'Soleil sans nuage.svg' : 'Nuageux.svg',
     // Légèrement nuageux
-    1: isDay ? 'H' : 'I',
+    1: isDay ? 'Soleil partiellement couvert.svg' : 'Nuageux.svg',
     // Partiellement nuageux
-    2: isDay ? 'H' : 'I',
+    2: isDay ? 'Nuage passant devant le soleil.svg' : 'Nuageux.svg',
     // Nuageux
-    3: 'N',
+    3: 'Nuageux.svg',
     // Brouillard
-    45: 'M',
-    48: 'W', // Brouillard givrant
-    // Bruine
-    51: 'Q',
-    53: 'R',
-    55: 'R',
-    // Bruine verglaçante
-    56: 'X',
-    57: 'X',
+    45: 'Nuageux.svg',
+    48: 'Nuageux.svg',
     // Pluie
-    61: 'R',
-    63: 'R',
-    65: 'R',
+    51: 'Nuage avec averse.svg',
+    53: 'Nuage avec averse.svg',
+    55: 'Nuage avec averse.svg',
+    // Bruine verglaçante
+    56: 'Nuage avec averse.svg',
+    57: 'Nuage avec averse.svg',
+    // Pluie
+    61: 'Nuage avec averse.svg',
+    63: 'Nuage avec averse.svg',
+    65: 'Nuage avec averse.svg',
     // Pluie verglaçante
-    66: 'X',
-    67: 'X',
+    66: 'Nuage avec averse.svg',
+    67: 'Nuage avec averse.svg',
     // Neige
-    71: 'W',
-    73: 'W',
-    75: 'W',
-    77: 'W', // Grésil
+    71: 'Nuage avec averse.svg',
+    73: 'Nuage avec averse.svg',
+    75: 'Nuage avec averse.svg',
+    77: 'Nuage avec averse.svg',
     // Averses
-    80: 'Q',
-    81: 'R',
-    82: 'R',
+    80: 'Nuage avec averse.svg',
+    81: 'Nuage avec averse.svg',
+    82: 'Nuage avec averse.svg',
     // Averses de neige
-    85: 'W',
-    86: 'W',
+    85: 'Nuage avec averse.svg',
+    86: 'Nuage avec averse.svg',
     // Orage
-    95: 'O',
-    96: 'O',
-    99: 'O'
+    95: 'Nuage avec averse.svg',
+    96: 'Nuage avec averse.svg',
+    99: 'Nuage avec averse.svg'
   };
 
-  return iconMap[weatherCode] || (isDay ? 'H' : 'I'); // Par défaut 'partiellement nuageux'
+  return iconMap[weatherCode] || 'Soleil sans nuage.svg';
 }
 
 // Fonction pour récupérer la météo
@@ -147,36 +146,20 @@ async function fetchWeather() {
       
       const description = descriptions[weatherCode] || 'conditions variables';
       
-      // Mettre à jour l'icône météo avec Meteocons
+      // Mettre à jour l'icône météo
       const weatherIcon = document.getElementById('weather-icon');
-      const iconChar = getMeteoconIcon(weatherCode, isDay);
-      weatherIcon.textContent = iconChar;
+      const iconFile = getWeatherIcon(weatherCode, isDay);
+      weatherIcon.innerHTML = `<img src="${iconFile}" alt="Météo" style="width: 80px; height: 80px; display: block;">`;
       
-      // Appliquer des styles en fonction des conditions météo
-      if (weatherCode >= 95) {
-        // Orage
-        weatherIcon.style.color = '#e74c3c';
-      } else if (weatherCode >= 51 && weatherCode <= 67) {
-        // Pluie
-        weatherIcon.style.color = '#3498db';
-      } else if (weatherCode >= 71 && weatherCode <= 86) {
-        // Neige
-        weatherIcon.style.color = '#ecf0f1';
-        weatherIcon.style.textShadow = '0 0 2px #7f8c8d';
-      } else if (weatherCode === 0 && isDay) {
-        // Soleil
-        weatherIcon.style.color = '#f1c40f';
-      } else if (weatherCode === 0 && !isDay) {
-        // Nuit claire
-        weatherIcon.style.color = '#2c3e50';
-      } else {
-        // Par défaut (nuageux, etc.)
-        weatherIcon.style.color = isDay ? '#7f8c8d' : '#95a5a6';
+      // Mettre à jour la température
+      const tempElement = document.getElementById('weather-temp');
+      if (tempElement) {
+        tempElement.textContent = `${Math.round(temp)}°C`;
       }
       
-      // Mise à jour du texte
+      // Mise à jour du texte descriptif
       document.getElementById('weather-text').textContent = 
-        `Actuellement à Mont-de-Marsan, il fait ${temp}°C avec un temps ${description} et un vent de ${windSpeed} km/h.`;
+        `Actuellement à Mont-de-Marsan, temps ${description} avec un vent de ${windSpeed} km/h.`;
     }
   } catch (error) {
     console.error('Erreur lors de la récupération de la météo:', error);
