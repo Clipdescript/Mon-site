@@ -88,3 +88,33 @@ h1 {
   margin-top: 16px;
   color: var(--muted);
 }
+
+/* Responsive pour tablettes */
+@media screen and (max-width: 1024px) and (min-width: 769px) {
+  .app {
+    width: min(600px, 95%);
+  }
+  
+  h1 {
+    font-size: 28px;
+  }
+  
+  .value {
+    font-size: 30px;
+  }
+}
+
+/* Responsive pour grands écrans */
+@media screen and (min-width: 1200px) {
+  .app {
+    width: min(720px, 100%);
+  }
+  
+  h1 {
+    font-size: 36px;
+  }
+  
+  .value {
+    font-size: 38px;
+  }
+}

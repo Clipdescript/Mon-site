@@ -1,106 +1,89 @@
-/* Styles pour les appareils mobiles */
-@media screen and (max-width: 768px) {
+/* Styles pour mobile (max-width: 768px) */
+
+body {
+  padding: 16px;
+}
+
+.app {
+  width: 100%;
+}
+
+h1 {
+  font-size: 24px;
+  margin: 0 0 12px;
+}
+
+.card {
+  padding: 10px 0;
+  margin: 6px 0;
+}
+
+.label {
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.value {
+  font-size: 24px;
+  margin-top: 6px;
+}
+
+.settings-icon {
+  top: 10px;
+  right: 10px;
+}
+
+.material-icons {
+  font-size: 20px;
+}
+
+/* Section météo responsive */
+#weather-container {
+  flex-direction: column !important;
+  gap: 10px !important;
+  min-height: auto !important;
+  margin: 10px 0 !important;
+}
+
+#weather-container img {
+  width: 60px !important;
+  height: 60px !important;
+}
+
+#weather-temp {
+  font-size: 2rem !important;
+}
+
+#weather-text {
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 0 10px;
+}
+
+/* Petit écrans (< 400px) */
+@media screen and (max-width: 400px) {
   body {
-    padding: 16px;
-    height: auto;
-    min-height: 100vh;
-    display: block;
-    font-size: 15px; /* Taille de base pour tous les textes */
+    padding: 12px;
   }
-
-  .app {
-    width: 100%;
-    max-width: 100%;
-    padding: 0;
-  }
-
+  
   h1 {
     font-size: 20px;
-    margin: 0 0 16px 0;
   }
-
-  .card {
-    padding: 8px 0;
-    margin: 6px 0;
-  }
-
+  
   .value {
-    font-size: 18px;
-    margin-top: 4px;
+    font-size: 20px;
   }
   
-  .label {
-    font-size: 11px;
+  #weather-temp {
+    font-size: 1.8rem !important;
+  }
+  
+  #weather-container img {
+    width: 50px !important;
+    height: 50px !important;
   }
   
   #weather-text {
-    font-size: 15px;
-    line-height: 1.4;
-  }
-
-  /* Ajustement de la section météo */
-  #weather {
-    padding: 0 8px;
-  }
-
-  #weather-icon {
-    width: 56px;
-    height: 56px;
-    font-size: 48px !important;
-  }
-
-  #weather-text {
-    font-size: inherit;
-    line-height: 1.4;
-    font-size: 15px;
-  }
-
-  /* Ajustement de l'heure et de la date */
-  #time {
-    font-size: 32px;
-  }
-
-  #date, #dayOfYear {
-    font-size: 24px;
-  }
-
-  /* Ajustement des marges et espacements */
-  .label {
-    font-size: 12px;
-  }
-
-  /* Amélioration de la lisibilité sur petit écran */
-  .footer {
-    margin-top: 24px;
-    font-size: 12px;
-  }
-
-  /* Désactiver les animations trop gourmandes */
-  * {
-    transition: none !important;
-    animation: none !important;
-  }
-
-  /* Ajustement pour la rotation de l'écran */
-  @media screen and (orientation: landscape) {
-    body {
-      padding: 8px;
-    }
-
-    .app {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      align-items: start;
-    }
-
-    h1 {
-      grid-column: 1 / -1;
-    }
-
-    .card {
-      margin: 0;
-      padding: 8px;
-    }
+    font-size: 13px;
   }
 }

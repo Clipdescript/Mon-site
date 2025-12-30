@@ -163,7 +163,7 @@ async function fetchWeather() {
     }
   } catch (error) {
     console.error('Erreur lors de la récupération de la météo:', error);
-    document.getElementById('weather-desc').textContent = 'Données météo indisponibles';
+    document.getElementById('weather-text').textContent = 'Données météo indisponibles';
   }
 }
 
