@@ -1,4 +1,26 @@
 /* Icône de paramètres */
+/* Bouton de thème */
+.theme-toggle {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  cursor: pointer;
+  z-index: 1000;
+  background-color: var(--settings-bg);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background-color: var(--settings-bg-hover);
+}
+
+/* Bouton des paramètres */
 .settings-icon {
   position: fixed;
   top: 15px;
@@ -23,13 +45,33 @@
   font-size: 24px;
 }
 
+/* Styles pour le thème clair par défaut */
 :root {
   --bg: #ffffff;
   --card: #f8f9fa;
   --text: #212529;
   --muted: #6c757d;
+  --settings-bg: rgba(200, 200, 200, 0.3);
+  --settings-bg-hover: rgba(200, 200, 200, 0.5);
   --border: #dee2e6;
   --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles pour le thème sombre */
+[data-theme="dark"] {
+  --bg: #1a1a1a;
+  --card: #2d2d2d;
+  --text: #f8f9fa;
+  --muted: #adb5bd;
+  --settings-bg: rgba(100, 100, 100, 0.3);
+  --settings-bg-hover: rgba(100, 100, 100, 0.5);
+  --border: #495057;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Transition fluide pour le changement de thème */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 * {

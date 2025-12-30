@@ -167,12 +167,59 @@ async function fetchWeather() {
   }
 }
 
-// Mettre à jour l'horloge immédiatement puis toutes les secondes
-updateClock();
-setInterval(updateClock, 1000);
+// Gestion du thème
+function initTheme() {
+  const themeToggle = document.querySelector('.theme-toggle');
+  const themeIcon = themeToggle.querySelector('.material-icons');
+  const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+  
+  // Vérifier le thème sauvegardé ou utiliser les préférences système
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    themeIcon.textContent = 'light_mode';
+  } else {
+    document.documentElement.setAttribute('data-theme', 'light');
+    themeIcon.textContent = 'dark_mode';
+  }
+  
+  // Gérer le changement de thème au clic
+  themeToggle.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    if (currentTheme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'light');
+      themeIcon.textContent = 'dark_mode';
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      themeIcon.textContent = 'light_mode';
+      localStorage.setItem('theme', 'dark');
+    }
+  });
+  
+  // Mettre à jour le thème si les préférences système changent (uniquement si aucun thème n'est sauvegardé)
+  prefersDarkScheme.addEventListener('change', (e) => {
+    if (!localStorage.getItem('theme')) {
+      if (e.matches) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        themeIcon.textContent = 'light_mode';
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        themeIcon.textContent = 'dark_mode';
+      }
+    }
+  });
+}
 
-// Charger la météo au démarrage
-fetchWeather();
-
-// Mettre à jour la météo toutes les 30 minutes
-setInterval(fetchWeather, 30 * 60 * 1000);
+// Initialiser l'horloge et le thème au chargement du DOM
+document.addEventListener('DOMContentLoaded', () => {
+  updateClock();
+  initTheme();
+  fetchWeather();
+  
+  // Mettre à jour l'horloge toutes les secondes
+  setInterval(updateClock, 1000);
+  
+  // Mettre à jour la météo toutes les 30 minutes
+  setInterval(fetchWeather, 30 * 60 * 1000);
+});
