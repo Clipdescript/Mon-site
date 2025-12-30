@@ -13,11 +13,28 @@
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  transition: background-color 0.2s ease;
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
 }
 
 .theme-toggle:hover {
   background-color: var(--settings-bg-hover);
+  width: 200px;
+  border-radius: 2px;
+  justify-content: flex-start;
+  padding-left: 12px;
+}
+
+.theme-toggle:hover::after {
+  content: attr(title);
+  position: absolute;
+  left: 48px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 /* Bouton des paramètres */
@@ -34,11 +51,28 @@
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  transition: background-color 0.2s ease;
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
 }
 
 .settings-icon:hover {
   background-color: rgba(200, 200, 200, 0.5);
+  width: 220px;
+  border-radius: 2px;
+  justify-content: flex-end;
+  padding-right: 12px;
+}
+
+.settings-icon:hover::before {
+  content: attr(title);
+  position: absolute;
+  right: 48px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 .material-icons {
@@ -186,17 +220,20 @@ h1 {
 .back-home {
   display: inline-block;
   padding: 0.8rem 2rem;
-  background-color: var(--text);
-  color: var(--bg);
+  background-color: var(--settings-bg);
+  color: var(--text);
   text-decoration: none;
-  border-radius: 8px;
-  transition: background-color 0.3s ease;
+  border-radius: 4px;
+  transition: all 0.2s ease;
   font-weight: 500;
+  transform: translateY(0);
 }
 
 .back-home:hover {
-  background-color: var(--muted);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 
 /* Responsive pour grands écrans */
 @media screen and (min-width: 1200px) {

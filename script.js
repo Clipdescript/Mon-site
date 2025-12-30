@@ -325,6 +325,19 @@ function speakPageContent() {
 function getPageText() {
   let textContent = '';
 
+  // Vérifier si on est sur la page 404
+  const errorCodeElement = document.querySelector('.error-code');
+  if (errorCodeElement) {
+    // Contenu spécifique pour la page 404
+    textContent += 'Page non trouvée. ';
+    const errorMessage = document.querySelector('.error-message');
+    if (errorMessage) {
+      textContent += errorMessage.textContent + '. ';
+    }
+    textContent += 'Vous pouvez utiliser le bouton retour à l\'accueil pour revenir à la page principale.';
+    return textContent.trim();
+  }
+
   // Titre principal
   const titleElement = document.querySelector('h1');
   if (titleElement) {
