@@ -41,12 +41,17 @@ function getGreeting(now) {
 
 // Variables globales pour le sélecteur de date
 let selectedDate = new Date();
-let dateHistory = []; // Historique des dates visitées (pour le retour en arrière)
-let currentHistoryIndex = -1; // Index actuel dans l'historique
-let isDatePickerActive = false; // Indique si une date personnalisée est active
+let isDatePickerActive = false;
 
 function updateClock() {
-  const now = isDatePickerActive ? selectedDate : new Date();
+  // Toujours utiliser l'heure actuelle, sauf si on est en mode date sélectionnée
+  const now = isDatePickerActive ? new Date(selectedDate) : new Date();
+  
+  // Si on est en mode date sélectionnée, on garde la date sélectionnée mais avec l'heure actuelle
+  if (isDatePickerActive) {
+    const currentTime = new Date();
+    now.setHours(currentTime.getHours(), currentTime.getMinutes(), currentTime.getSeconds());
+  }
 
   const hh = pad2(now.getHours());
   const mm = pad2(now.getMinutes());
@@ -82,13 +87,32 @@ function updateClock() {
 
   const doy = dayOfYear(now);
   if (doyEl) {
-    // Vérifier si c'est le 30 décembre (2 jours avant le Nouvel An)
-    const isNewYearsEve = now.getMonth() === 11 && now.getDate() === 30;
-    if (isNewYearsEve) {
+    // Vérifier si c'est le 31 décembre (dernier jour de l'année)
+    const isLastDayOfYear = now.getMonth() === 11 && now.getDate() === 31;
+    // Vérifier si c'est le 30 décembre (avant-dernier jour de l'année)
+    const isDayBeforeLast = now.getMonth() === 11 && now.getDate() === 30;
+    
+    if (isLastDayOfYear) {
+      // Calculer le temps restant jusqu'à minuit
+      const midnight = new Date(now);
+      midnight.setHours(24, 0, 0, 0);
+      const timeLeft = midnight - now;
+      const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+      const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+      
+      // Décompte en temps réel
+      doyEl.textContent = `Dernier jour de l'année ! Plus que ${hours}h ${pad2(minutes)}m ${pad2(seconds)}s avant ${now.getFullYear() + 1}`;
+    } else if (isDayBeforeLast) {
+      // Message pour le 30 décembre
       const nextYear = now.getFullYear() + 1;
-      doyEl.textContent = `On est à 1 jour du Nouvel An ${nextYear}`;
+      doyEl.textContent = `Demain c'est le réveillon du Nouvel An ${nextYear} !`;
     } else {
-      doyEl.textContent = `Nous sommes le ${doy}${doy === 1 ? 'er' : 'e'} jour de l'année`;
+      // Message normal pour les autres jours
+      doyEl.textContent = `Nous sommes au ${doy}${doy === 1 ? 'er' : 'e'} jour de l'année`;
+      // Réinitialiser le style si nécessaire
+      doyEl.style.color = '';
+      doyEl.style.fontWeight = '';
     }
   }
 }
@@ -284,7 +308,7 @@ async function fetchWeather() {
 
       // Mise à jour du texte descriptif avec le nom de la ville
       document.getElementById('weather-text').textContent =
-        `Actuellement à ${cityName}, temps ${description} avec un vent de ${windSpeed} km/h.`;
+        `Il fait ${temp}°C à ${cityName} avec un ciel ${description}`;
     }
   } catch (error) {
     console.error('Erreur lors de la récupération de la météo:', error);
@@ -382,7 +406,6 @@ function getPageText() {
   // Vérifier si on est sur la page 404
   const errorCodeElement = document.querySelector('.error-code');
   if (errorCodeElement) {
-    // Contenu spécifique pour la page 404
     textContent += 'Page non trouvée. ';
     const errorMessage = document.querySelector('.error-message');
     if (errorMessage) {
@@ -392,8 +415,91 @@ function getPageText() {
     return textContent.trim();
   }
 
-  // Commencer par la salutation joyeuse
-  const now = new Date();
+  // Détecter la date actuelle affichée
+  const now = isDatePickerActive ? selectedDate : new Date();
+  const month = now.getMonth();
+  const day = now.getDate();
+  const nextYear = now.getFullYear() + 1;
+  const hour = new Date().getHours();
+
+  // Messages spéciaux pour le 30 décembre
+  if (month === 11 && day === 30) {
+    // Salutation selon l'heure
+    if (hour >= 6 && hour < 12) {
+      textContent += 'Bonjour et bonnes fêtes de fin d\'année ! ';
+    } else if (hour >= 12 && hour < 18) {
+      textContent += 'Bonne après-midi et joyeuses fêtes ! ';
+    } else {
+      textContent += 'Bonne soirée et bonnes fêtes ! ';
+    }
+
+    // Heure
+    const timeElement = document.getElementById('time');
+    if (timeElement) {
+      textContent += 'Il est ' + formatTimeForSpeech(timeElement.textContent) + '. ';
+    }
+
+    // Message festif pour le 30 décembre
+    textContent += 'Nous sommes le trente décembre, ';
+    textContent += 'c\'est l\'avant-dernier jour de l\'année ! ';
+    textContent += 'Demain, ce sera le réveillon du Nouvel An ' + nextYear + '. ';
+    textContent += 'Profitez bien de cette journée pour préparer la fête ! ';
+
+    // Météo
+    const weatherElement = document.getElementById('weather-text');
+    if (weatherElement && weatherElement.textContent && !weatherElement.textContent.includes('Chargement')) {
+      textContent += 'Côté météo, ' + formatWeatherForSpeech(weatherElement.textContent.toLowerCase()) + '. ';
+    }
+
+    return textContent.trim();
+  }
+
+  // Messages spéciaux pour le 31 décembre
+  if (month === 11 && day === 31) {
+    // Salutation festive
+    textContent += 'Bonne fête et joyeux réveillon ! ';
+
+    // Heure
+    const timeElement = document.getElementById('time');
+    if (timeElement) {
+      textContent += 'Il est ' + formatTimeForSpeech(timeElement.textContent) + '. ';
+    }
+
+    // Message pour le 31 décembre
+    textContent += 'C\'est le trente et un décembre, le dernier jour de l\'année ! ';
+    
+    // Calculer le temps restant
+    const midnight = new Date(now);
+    midnight.setHours(24, 0, 0, 0);
+    const currentTime = new Date();
+    const timeLeft = midnight - currentTime;
+    const hoursLeft = Math.floor(timeLeft / (1000 * 60 * 60));
+    const minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+
+    if (hoursLeft > 0) {
+      textContent += 'Il reste environ ' + hoursLeft + ' heure' + (hoursLeft > 1 ? 's' : '');
+      if (minutesLeft > 0) {
+        textContent += ' et ' + minutesLeft + ' minute' + (minutesLeft > 1 ? 's' : '');
+      }
+      textContent += ' avant le passage à ' + nextYear + ' ! ';
+    } else if (minutesLeft > 0) {
+      textContent += 'Plus que ' + minutesLeft + ' minute' + (minutesLeft > 1 ? 's' : '') + ' avant la nouvelle année ! ';
+    } else {
+      textContent += 'Le décompte final a commencé ! ';
+    }
+
+    textContent += 'Passez une excellente soirée et une merveilleuse année ' + nextYear + ' ! ';
+
+    // Météo
+    const weatherElement = document.getElementById('weather-text');
+    if (weatherElement && weatherElement.textContent && !weatherElement.textContent.includes('Chargement')) {
+      textContent += 'Pour la météo de ce soir, ' + formatWeatherForSpeech(weatherElement.textContent.toLowerCase()) + '. ';
+    }
+
+    return textContent.trim();
+  }
+
+  // --- Messages normaux pour les autres jours ---
   const greeting = getGreeting(now);
   textContent += greeting + ', ';
 
@@ -423,19 +529,11 @@ function getPageText() {
   const dayOfYearElement = document.getElementById('dayOfYear');
   if (dayOfYearElement) {
     const text = dayOfYearElement.textContent;
-    // Vérifier si c'est le message spécial du Nouvel An
-    if (text.includes('Nouvel An')) {
-      // Rendre plus joyeux pour la voix
-      const yearMatch = text.match(/(\d{4})/);
-      const year = yearMatch ? yearMatch[1] : '';
-      textContent += 'vous êtes plus qu\'à un jour du Nouvel An ' + year + ' ! ';
-    } else {
-      const dayMatch = text.match(/(\d+)/);
-      if (dayMatch) {
-        const dayNum = parseInt(dayMatch[1]);
-        const ordinalSuffix = dayNum === 1 ? 'er' : 'ème';
-        textContent += 'nous sommes le ' + dayNum + ordinalSuffix + ' jour de l\'année. ';
-      }
+    const dayMatch = text.match(/(\d+)/);
+    if (dayMatch) {
+      const dayNum = parseInt(dayMatch[1]);
+      const ordinalSuffix = dayNum === 1 ? 'er' : 'ème';
+      textContent += 'nous sommes le ' + dayNum + ordinalSuffix + ' jour de l\'année. ';
     }
   }
 
@@ -586,12 +684,12 @@ function formatWeatherForSpeech(weatherText) {
   if (temp && windSpeed !== null) {
     formatted = formatted.replace(
       /Actuellement à ([^,]+), temps ([^,]+) avec un vent de (\d+) kilomètres par heure/,
-      `Il fait actuellement $3 degrés Celsius à $1, ce qui est $tempDescription, avec un temps $2 et un vent $windDescription de $3 kilomètres par heure`
+      `Il fait actuellement ${temp} degrés Celsius à $1, ce qui est ${tempDescription}, avec un temps $2 et un vent ${windDescription} de $3 kilomètres par heure`
     );
   } else if (temp) {
     formatted = formatted.replace(
       /Actuellement à ([^,]+), temps ([^,]+)/,
-      `Il fait actuellement $3 degrés Celsius à $1, ce qui est $tempDescription, avec un temps $2`
+      `Il fait actuellement ${temp} degrés Celsius à $1, ce qui est ${tempDescription}, avec un temps $2`
     );
   }
 
@@ -687,6 +785,29 @@ function registerServiceWorker() {
   }
 }
 
+// Fonction pour fermer le sélecteur de date
+function closeDatePicker() {
+  const datePickerModal = document.getElementById('date-picker-modal');
+  if (datePickerModal) {
+    datePickerModal.style.display = 'none';
+  }
+}
+
+// Fonction pour revenir à aujourd'hui
+function resetToToday() {
+  selectedDate = new Date();
+  isDatePickerActive = false;
+  updateClock();
+}
+
+// Vérifier si la date sélectionnée est aujourd'hui
+function isToday(date) {
+  const today = new Date();
+  return date.getDate() === today.getDate() &&
+         date.getMonth() === today.getMonth() &&
+         date.getFullYear() === today.getFullYear();
+}
+
 // Gestion du sélecteur de date
 function initDatePicker() {
   const datePickerToggle = document.querySelector('.date-picker-toggle');
@@ -694,143 +815,138 @@ function initDatePicker() {
   const datePickerClose = document.getElementById('date-picker-close');
   const datePickerNext = document.getElementById('date-picker-next');
   const datePickerBack = document.getElementById('date-picker-back');
-  
-  // Réinitialiser à la date actuelle
-  selectedDate = new Date();
-  dateHistory = [new Date(selectedDate)];
-  currentHistoryIndex = 0;
-  isDatePickerActive = false;
 
   // Ouvrir la modal
   datePickerToggle.addEventListener('click', () => {
+    // Commencer à aujourd'hui quand on ouvre
     selectedDate = new Date();
-    dateHistory = [new Date(selectedDate)];
-    currentHistoryIndex = 0;
     isDatePickerActive = false;
     updateDatePickerDisplay();
     datePickerModal.style.display = 'flex';
   });
 
-  // Fermer la modal
+  // Fermer la modal (garder la date sélectionnée)
   datePickerClose.addEventListener('click', () => {
-    datePickerModal.style.display = 'none';
-    // Ne pas remettre le bouton à sa position d'origine ici
+    closeDatePicker();
   });
 
-  // Fermer en cliquant sur l'overlay
+  // Fermer en cliquant sur l'overlay (garder la date sélectionnée)
   datePickerModal.addEventListener('click', (e) => {
     if (e.target === datePickerModal) {
-      datePickerModal.style.display = 'none';
-      // Ne pas remettre le bouton à sa position d'origine ici
+      closeDatePicker();
     }
   });
 
   // Jour suivant
   datePickerNext.addEventListener('click', () => {
-    const nextDate = new Date(selectedDate);
-    nextDate.setDate(nextDate.getDate() + 1);
-    selectedDate = nextDate;
-    
-    // Ajouter à l'historique
-    currentHistoryIndex++;
-    dateHistory = dateHistory.slice(0, currentHistoryIndex + 1);
-    dateHistory.push(new Date(selectedDate));
-    
-    isDatePickerActive = true;
+    selectedDate.setDate(selectedDate.getDate() + 1);
+    isDatePickerActive = !isToday(selectedDate);
     updateDatePickerDisplay();
-    updateDisplayWithSelectedDate();
+    updateMainDisplay();
   });
 
-  // Retour en arrière
+  // Jour précédent
   datePickerBack.addEventListener('click', () => {
-    if (currentHistoryIndex > 0) {
-      currentHistoryIndex--;
-      selectedDate = new Date(dateHistory[currentHistoryIndex]);
-      
-      // Si on revient à la date d'aujourd'hui, désactiver le mode date picker
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const selected = new Date(selectedDate);
-      selected.setHours(0, 0, 0, 0);
-      
-      if (selected.getTime() === today.getTime()) {
-        isDatePickerActive = false;
-      }
-      
-      updateDatePickerDisplay();
-      updateDisplayWithSelectedDate();
-    }
+    selectedDate.setDate(selectedDate.getDate() - 1);
+    isDatePickerActive = !isToday(selectedDate);
+    updateDatePickerDisplay();
+    updateMainDisplay();
   });
 }
 
+// Mettre à jour l'affichage du modal
 function updateDatePickerDisplay() {
   const dayEl = document.getElementById('selected-day');
   const monthEl = document.getElementById('selected-month');
   const yearEl = document.getElementById('selected-year');
-  const backBtn = document.getElementById('date-picker-back');
   const labelEl = document.querySelector('.date-label');
   
-  const day = selectedDate.getDate();
   const monthNames = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin',
     'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
-  const month = monthNames[selectedDate.getMonth()];
-  const year = selectedDate.getFullYear();
   
-  // Vérifier si c'est aujourd'hui
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const selected = new Date(selectedDate);
-  selected.setHours(0, 0, 0, 0);
-  const isToday = selected.getTime() === today.getTime();
-  
-  if (dayEl) dayEl.textContent = day;
-  if (monthEl) monthEl.textContent = month;
-  if (yearEl) yearEl.textContent = year;
-  if (labelEl) labelEl.textContent = isToday ? 'Aujourd\'hui' : 'Jour sélectionné';
-  
-  // Activer/désactiver le bouton retour
-  if (backBtn) {
-    backBtn.disabled = currentHistoryIndex <= 0;
-  }
+  if (dayEl) dayEl.textContent = selectedDate.getDate();
+  if (monthEl) monthEl.textContent = monthNames[selectedDate.getMonth()];
+  if (yearEl) yearEl.textContent = selectedDate.getFullYear();
+  if (labelEl) labelEl.textContent = isToday(selectedDate) ? "Aujourd'hui" : 'Jour sélectionné';
 }
 
-function updateDisplayWithSelectedDate() {
-  const dateEl = document.getElementById("date");
-  const doyEl = document.getElementById("dayOfYear");
-  const titleEl = document.querySelector("h1");
-  const holidayImage = document.querySelector(".holiday-image");
+// Mettre à jour l'affichage principal
+function updateMainDisplay() {
+  const dateEl = document.getElementById('date');
+  const doyEl = document.getElementById('dayOfYear');
+  const titleEl = document.querySelector('h1');
+  const holidayImage = document.querySelector('.holiday-image');
   
   // Formater la date
-  const dateFormatter = new Intl.DateTimeFormat("fr-FR", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "2-digit",
+  const dateFormatter = new Intl.DateTimeFormat('fr-FR', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: '2-digit',
   });
   
   if (dateEl) dateEl.textContent = dateFormatter.format(selectedDate);
   
-  // Mettre à jour le titre avec la salutation
-  if (titleEl) {
-    titleEl.textContent = getGreeting(selectedDate);
-  }
+  // Mettre à jour le titre
+  if (titleEl) titleEl.textContent = getGreeting(selectedDate);
   
-  // Afficher l'image de fête
+  // Afficher l'image de fête pour les 30 et 31 décembre
   if (holidayImage) {
     const isHolidayPeriod = selectedDate.getMonth() === 11 && 
       (selectedDate.getDate() === 30 || selectedDate.getDate() === 31);
     holidayImage.style.display = isHolidayPeriod ? 'block' : 'none';
   }
   
-  // Mettre à jour le jour dans l'année
-  const doy = dayOfYear(selectedDate);
+  // Mettre à jour le message du jour
   if (doyEl) {
-    const isNewYearsEve = selectedDate.getMonth() === 11 && selectedDate.getDate() === 30;
-    if (isNewYearsEve) {
-      const nextYear = selectedDate.getFullYear() + 1;
-      doyEl.textContent = `On est à 1 jour du Nouvel An ${nextYear}`;
+    const month = selectedDate.getMonth();
+    const day = selectedDate.getDate();
+    const nextYear = selectedDate.getFullYear() + 1;
+    const doy = dayOfYear(selectedDate);
+    
+    if (month === 11 && day === 31) {
+      // 31 décembre - décompte en temps réel
+      const midnight = new Date(selectedDate);
+      midnight.setHours(24, 0, 0, 0);
+      const currentTime = new Date();
+      const timeLeft = midnight - currentTime;
+      
+      if (timeLeft > 0) {
+        const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+        doyEl.textContent = `Dernier jour de l'année ! Plus que ${hours}h ${pad2(minutes)}m ${pad2(seconds)}s avant ${nextYear}`;
+      } else {
+        doyEl.textContent = `Bonne année ${nextYear} !`;
+      }
+    } else if (month === 11 && day === 30) {
+      // 30 décembre
+      doyEl.textContent = `Demain c'est le réveillon du Nouvel An ${nextYear} !`;
     } else {
-      doyEl.textContent = `Nous sommes le ${doy}${doy === 1 ? 'er' : 'e'} jour de l'année`;
+      doyEl.textContent = `Nous sommes au ${doy}${doy === 1 ? 'er' : 'e'} jour de l'année`;
+    }
+  }
+}
+
+// Mettre à jour le décompte si on est sur le 31 décembre (pour le sélecteur de date)
+function updateCountdownIfNeeded() {
+  if (isDatePickerActive && selectedDate.getMonth() === 11 && selectedDate.getDate() === 31) {
+    const doyEl = document.getElementById('dayOfYear');
+    if (doyEl) {
+      const nextYear = selectedDate.getFullYear() + 1;
+      const midnight = new Date(selectedDate);
+      midnight.setHours(24, 0, 0, 0);
+      const currentTime = new Date();
+      const timeLeft = midnight - currentTime;
+      
+      if (timeLeft > 0) {
+        const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+        doyEl.textContent = `Dernier jour de l'année ! Plus que ${hours}h ${pad2(minutes)}m ${pad2(seconds)}s avant ${nextYear}`;
+      } else {
+        doyEl.textContent = `Bonne année ${nextYear} !`;
+      }
     }
   }
 }
@@ -844,8 +960,11 @@ document.addEventListener('DOMContentLoaded', () => {
   registerServiceWorker();
   fetchWeather();
 
-  // Mettre à jour l'horloge toutes les secondes
-  setInterval(updateClock, 1000);
+  // Mettre à jour l'horloge et le décompte toutes les secondes
+  setInterval(() => {
+    updateClock();
+    updateCountdownIfNeeded();
+  }, 1000);
 
   // Mettre à jour la météo toutes les 30 minutes
   setInterval(fetchWeather, 30 * 60 * 1000);

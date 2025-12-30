@@ -1,5 +1,5 @@
 // Version du cache - incrémenter pour forcer la mise à jour
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v4';
 const CACHE_NAME = `mon-site-cache-${CACHE_VERSION}`;
 
 // Fichiers à mettre en cache lors de l'installation

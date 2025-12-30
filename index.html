@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Quel jour sommes-nous aujourd'hui ?</title>
+    <title>Quelle date sommes-nous ?</title>
     <link rel="icon" type="image/png" href="Logo.png" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="portable.css" media="screen and (max-width: 768px)" />
@@ -24,13 +24,11 @@
     <div id="date-picker-modal" class="date-picker-modal" style="display: none;">
       <div class="date-picker-content">
         <div class="date-picker-header">
-          <button id="date-picker-back" class="date-picker-nav-btn" disabled>
-            <span class="material-icons">arrow_back</span>
-          </button>
-          <h2>Choisir le jour</h2>
           <button id="date-picker-close" class="date-picker-close-btn">
             <span class="material-icons">close</span>
           </button>
+          <h2>Voyager dans le temps</h2>
+          <div style="width: 24px;"></div> <!-- Pour centrer le titre -->
         </div>
         <div class="date-picker-body">
           <div class="date-display">
@@ -40,17 +38,21 @@
             <div id="selected-year" class="date-year">--</div>
           </div>
           <div class="date-picker-actions">
+            <button id="date-picker-back" class="date-picker-action-btn">
+              <span class="material-icons">chevron_left</span>
+            </button>
             <button id="date-picker-next" class="date-picker-action-btn">
-              <span class="material-icons">arrow_forward</span>
-              Jour suivant
+              <span class="material-icons">chevron_right</span>
             </button>
           </div>
         </div>
       </div>
     </div>
-    <img src="nouvel-an.jpg" alt="Joyeux Noël et Bonne Année" class="holiday-image" style="display: none;">
+    <div class="image-container">
+      <img src="nouvel-an.jpg" alt="Joyeux Noël et Bonne Année" class="holiday-image" style="display: none; max-height: 30vh; width: auto; position: fixed; right: 20px; top: 50%; transform: translateY(-50%);">
+    </div>
     <main class="app" aria-live="polite">
-      <h1>Quel jour sommes-nous ?</h1>
+      <h1>Bonne journée</h1>
 
       <section class="card">
         <div class="label">Heure</div>
@@ -63,18 +65,18 @@
       </section>
 
       <section class="card">
-        <div class="label">Jour dans l'année</div>
+        <div class="label">Info du jour</div>
         <div id="dayOfYear" class="value">--</div>
       </section>
 
       <section class="card">
-        <div class="label">Météo basée sur votre position</div>
+        <div class="label">Météo actuelle</div>
         <div id="weather" class="value">
           <div id="weather-container" style="display: flex; justify-content: center; align-items: center; gap: 15px; margin: 15px 0; min-height: 80px;">
             <div id="weather-icon"></div>
             <div id="weather-temp" style="font-size: 2.5rem; font-weight: 300;">--°C</div>
           </div>
-          <div id="weather-text">Chargement des conditions météorologiques...</div>
+          <div id="weather-text">Chargement de la météo...</div>
         </div>
       </section>
 
