@@ -60,30 +60,63 @@ h1 {
   padding: 0 10px;
 }
 
+/* Styles 404 pour mobile */
+.error-container {
+  min-height: 60vh;
+  padding: 1rem;
+}
+
+.error-code {
+  font-size: 4rem;
+}
+
+.error-message {
+  font-size: 1.2rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.back-home {
+  padding: 0.7rem 1.5rem;
+  font-size: 0.9rem;
+}
+
 /* Petit écrans (< 400px) */
 @media screen and (max-width: 400px) {
   body {
     padding: 12px;
   }
-  
+
   h1 {
     font-size: 20px;
   }
-  
+
   .value {
     font-size: 20px;
   }
-  
+
   #weather-temp {
     font-size: 1.8rem !important;
   }
-  
+
   #weather-container img {
     width: 50px !important;
     height: 50px !important;
   }
-  
+
   #weather-text {
     font-size: 13px;
+  }
+
+  .error-code {
+    font-size: 3rem;
+  }
+
+  .error-message {
+    font-size: 1.1rem;
+  }
+
+  .back-home {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
   }
 }
