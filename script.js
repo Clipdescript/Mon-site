@@ -654,11 +654,38 @@ function initTheme() {
   });
 }
 
+// Enregistrer le Service Worker pour le mode hors ligne
+function registerServiceWorker() {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js')
+        .then((registration) => {
+          console.log('[Service Worker] Enregistré avec succès:', registration.scope);
+          
+          // Vérifier les mises à jour du service worker
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // Nouveau service worker disponible
+                console.log('[Service Worker] Nouvelle version disponible');
+              }
+            });
+          });
+        })
+        .catch((error) => {
+          console.error('[Service Worker] Erreur lors de l\'enregistrement:', error);
+        });
+    });
+  }
+}
+
 // Initialiser l'horloge et le thème au chargement du DOM
 document.addEventListener('DOMContentLoaded', () => {
   updateClock();
   initTheme();
   initVolumeToggle();
+  registerServiceWorker();
   fetchWeather();
 
   // Mettre à jour l'horloge toutes les secondes
