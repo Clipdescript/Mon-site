@@ -152,6 +152,37 @@ h1 {
   letter-spacing: 0.2px;
 }
 
+/* Styles pour "Bonne fête" avec couleurs spéciales */
+.bonne-text {
+  color: #F4D03F; /* Fallback pour les navigateurs qui ne supportent pas background-clip */
+  background: linear-gradient(135deg, #FFF9C4 0%, #F4D03F 50%, #F1C40F 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 1px 2px rgba(244, 208, 63, 0.2);
+  font-weight: 600;
+  display: inline-block;
+}
+
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+  .bonne-text {
+    color: transparent;
+  }
+}
+
+.fete-text {
+  color: #000000;
+  text-shadow: 2px 2px 0px rgba(180, 180, 180, 0.5);
+  font-weight: 600;
+  display: inline-block;
+}
+
+/* Support pour le thème sombre */
+[data-theme="dark"] .fete-text {
+  color: #ffffff;
+  text-shadow: 3px 3px 0px rgba(100, 100, 100, 0.5), 2px 2px 0px rgba(150, 150, 150, 0.4);
+}
+
 .card {
   background: none;
   border: none;
