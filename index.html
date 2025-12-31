@@ -128,14 +128,24 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('service-worker.js')
-            .then(registration => {
-              console.log('Service Worker enregistré avec succès');
-              registration.update();
-            })
-            .catch(error => {
-              console.error('Erreur lors de l\'enregistrement du Service Worker:', error);
+          // Désenregistrer d'abord tous les service workers existants
+          navigator.serviceWorker.getRegistrations().then(registrations => {
+            for (let registration of registrations) {
+              registration.unregister();
+            }
+            // Enregistrer le nouveau service worker
+            return navigator.serviceWorker.register('service-worker.js', {
+              scope: '/Mon-site/'
             });
+          }).then(registration => {
+            console.log('Service Worker enregistré avec succès');
+            // Vérifier les mises à jour
+            registration.update();
+            // Forcer la mise à jour après 5 secondes (au cas où)
+            setTimeout(() => registration.update(), 5000);
+          }).catch(error => {
+            console.error('Erreur lors de l\'enregistrement du Service Worker:', error);
+          });
         });
       }
     </script>
