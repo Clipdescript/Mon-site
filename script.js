@@ -15,6 +15,11 @@ function dayOfYear(date) {
 
 // Fonction pour obtenir la salutation appropriée selon l'heure et la saison
 function getGreeting(now) {
+  // Vérifier si nous sommes sur la page des mentions légales
+  if (window.location.pathname.includes('mentions-legales.html')) {
+    return ''; // Pas de salutation sur la page des mentions légales
+  }
+  
   const hour = now.getHours();
   const month = now.getMonth();
   const day = now.getDate();

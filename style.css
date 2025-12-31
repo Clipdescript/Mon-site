@@ -1,3 +1,59 @@
+/* Styles pour la page des mentions légales */
+.legal-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.legal-content h1 {
+  color: var(--primary);
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2.2em;
+}
+
+.legal-content h2 {
+  color: var(--primary);
+  margin: 15px 0 5px 0;
+  font-size: 1.5em;
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 3px;
+  display: inline-block;
+}
+
+.legal-content section {
+  max-width: 800px;
+  margin: 0.5rem auto 1rem;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.back-link-container {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.back-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: var(--primary);
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.back-link:hover {
+  background-color: var(--primary-dark);
+  text-decoration: none;
+}
+
 /* Barre de séparation légale */
 .legal-bar {
   border-top: 1px solid var(--border-color);
