@@ -7,25 +7,18 @@
   cursor: pointer;
   z-index: 1000;
   background-color: var(--settings-bg);
-  width: 36px;
+  width: 200px;
   height: 36px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  justify-content: flex-start;
+  border-radius: 2px;
+  padding-left: 12px;
+  transition: all 0.3s ease;
   overflow: hidden;
 }
 
-.theme-toggle:hover {
-  background-color: var(--settings-bg-hover);
-  width: 200px;
-  border-radius: 2px;
-  justify-content: flex-start;
-  padding-left: 12px;
-}
-
-.theme-toggle:hover::after {
+.theme-toggle::after {
   content: attr(title);
   position: absolute;
   left: 48px;
@@ -35,35 +28,32 @@
   font-size: 14px;
   font-weight: 500;
   white-space: nowrap;
+}
+
+.theme-toggle:hover {
+  background-color: var(--settings-bg-hover);
 }
 
 /* Bouton de sélection de date */
 .date-picker-toggle {
   position: fixed;
   top: 15px;
-  left: 60px;
+  left: 225px; /* Ajusté pour éviter le chevauchement avec le premier bouton */
   cursor: pointer;
   z-index: 1000;
   background-color: var(--settings-bg);
-  width: 36px;
+  width: 180px;
   height: 36px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  justify-content: flex-start;
+  border-radius: 2px;
+  padding-left: 12px;
+  transition: all 0.3s ease;
   overflow: hidden;
 }
 
-.date-picker-toggle:hover {
-  background-color: var(--settings-bg-hover);
-  width: 180px;
-  border-radius: 2px;
-  justify-content: flex-start;
-  padding-left: 12px;
-}
-
-.date-picker-toggle:hover::after {
+.date-picker-toggle::after {
   content: attr(title);
   position: absolute;
   left: 48px;
@@ -75,9 +65,17 @@
   white-space: nowrap;
 }
 
-/* Déplacer le bouton calendrier quand on survole le bouton mode sombre pour éviter la superposition */
-.theme-toggle:hover ~ .date-picker-toggle {
-  left: 220px;
+.date-picker-toggle:hover {
+  background-color: var(--settings-bg-hover);
+}
+
+/* Ajustement de l'espacement entre les boutons */
+.theme-toggle {
+  left: 15px;
+}
+
+.date-picker-toggle {
+  left: 225px;
 }
 
 /* Bouton des paramètres */
@@ -88,25 +86,18 @@
   cursor: pointer;
   z-index: 1000;
   background-color: rgba(200, 200, 200, 0.3);
-  width: 36px;
+  width: 220px;
   height: 36px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  justify-content: flex-end;
+  border-radius: 2px;
+  padding-right: 12px;
+  transition: all 0.3s ease;
   overflow: hidden;
 }
 
-.settings-icon:hover {
-  background-color: rgba(200, 200, 200, 0.5);
-  width: 220px;
-  border-radius: 2px;
-  justify-content: flex-end;
-  padding-right: 12px;
-}
-
-.settings-icon:hover::before {
+.settings-icon::before {
   content: attr(title);
   position: absolute;
   right: 48px;
@@ -116,6 +107,10 @@
   font-size: 14px;
   font-weight: 500;
   white-space: nowrap;
+}
+
+.settings-icon:hover {
+  background-color: rgba(200, 200, 200, 0.5);
 }
 
 .material-icons {
