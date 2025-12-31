@@ -124,6 +124,22 @@
 
     <script src="script.js" defer></script>
     
+    <!-- Enregistrement du Service Worker -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+              console.log('Service Worker enregistré avec succès');
+              registration.update();
+            })
+            .catch(error => {
+              console.error('Erreur lors de l\'enregistrement du Service Worker:', error);
+            });
+        });
+      }
+    </script>
+    
     <!-- Barre d'informations légales -->
     <footer class="legal-bar">
       <div class="legal-links">
