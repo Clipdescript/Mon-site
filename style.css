@@ -196,7 +196,7 @@ body {
 
 h1 {
   margin: 0 0 15px;
-  font-size: 20px;
+  font-size: 2.5em;
   letter-spacing: 0.1px;
   font-weight: 500;
 }
@@ -241,7 +241,7 @@ h1 {
 }
 
 .label {
-  font-size: 11px;
+  font-size: 1.2em;
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -250,7 +250,7 @@ h1 {
 
 .value {
   margin-top: 6px;
-  font-size: 20px;
+  font-size: 2.5em;
   font-variant-numeric: tabular-nums;
   font-weight: 400;
 }
