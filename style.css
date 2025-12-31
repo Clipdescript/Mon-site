@@ -13,9 +13,15 @@
 }
 
 .legal-link {
-  color: var(--text);
+  color: #1a73e8; /* Bleu vif pour une bonne visibilité */
   text-decoration: none;
   font-size: 0.85rem;
+  transition: opacity 0.2s ease;
+}
+
+.legal-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
 }
 
 .separator {

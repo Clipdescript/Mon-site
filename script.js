@@ -167,43 +167,61 @@ function getWeatherIcon(weatherCode, isDay = true) {
   return iconMap[weatherCode] || 'Soleil sans nuage.svg';
 }
 
+// Coordonnées de Paris (par défaut)
+const DEFAULT_CITY = {
+  name: 'Paris',
+  latitude: 48.8566,
+  longitude: 2.3522
+};
+
 // Fonction pour obtenir la position actuelle
-function getCurrentPosition() {
+async function getCurrentPosition() {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
-      reject(new Error('La géolocalisation n\'est pas supportée par ce navigateur'));
+      console.log('La géolocalisation n\'est pas supportée par ce navigateur');
+      resolve(DEFAULT_CITY);
       return;
     }
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        resolve({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        });
-      },
-      (error) => {
-        let errorMessage = 'Erreur de géolocalisation';
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            errorMessage = 'Accès à la localisation refusé par l\'utilisateur';
-            break;
-          case error.POSITION_UNAVAILABLE:
-            errorMessage = 'Position indisponible';
-            break;
-          case error.TIMEOUT:
-            errorMessage = 'Délai d\'attente dépassé pour obtenir la position';
-            break;
+    // Vérifier si l'utilisateur a déjà refusé la géolocalisation
+    if (navigator.permissions) {
+      navigator.permissions.query({name:'geolocation'}).then(function(permissionStatus) {
+        if (permissionStatus.state === 'denied') {
+          console.log('L\'utilisateur a refusé la géolocalisation');
+          resolve(DEFAULT_CITY);
+          return;
         }
-        reject(new Error(errorMessage));
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 300000 // 5 minutes
-      }
-    );
+        // Si la permission n'est pas refusée, continuer avec getCurrentPosition
+        requestPosition(resolve, reject);
+      });
+    } else {
+      // Pour les navigateurs qui ne supportent pas l'API Permissions
+      requestPosition(resolve, reject);
+    }
   });
+}
+
+// Fonction pour demander la position
+function requestPosition(resolve, reject) {
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      console.log('Position obtenue avec succès');
+      resolve({
+        name: null, // Le nom sera déterminé plus tard
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      });
+    },
+    (error) => {
+      console.log('Erreur de géolocalisation, utilisation de Paris par défaut:', error.message);
+      resolve(DEFAULT_CITY);
+    },
+    { 
+      enableHighAccuracy: true,
+      timeout: 5000, // Augmentation du timeout pour laisser plus de temps
+      maximumAge: 0
+    }
+  );
 }
 
 // Fonction pour obtenir le nom de la ville via reverse geocoding
@@ -229,8 +247,8 @@ async function getCityName(latitude, longitude) {
 
     return 'votre position';
   } catch (error) {
-    console.error('Erreur lors de la récupération du nom de ville:', error);
-    return 'votre position';
+    console.error('Erreur lors de la récupération du nom de ville, utilisation de Paris par défaut:', error);
+    return 'Paris';
   }
 }
 
