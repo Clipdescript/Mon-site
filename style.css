@@ -211,7 +211,10 @@ h1 {
   text-shadow: 0 1px 2px rgba(244, 208, 63, 0.2);
   font-weight: 500;
   display: inline-block;
-  font-size: 20px;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
 }
 
 @supports (-webkit-background-clip: text) or (background-clip: text) {
@@ -236,23 +239,29 @@ h1 {
 .card {
   background: none;
   border: none;
-  padding: 12px 0;
-  margin: 8px 0;
+  padding: 4px 0;
+  margin: 10px 0;
 }
 
+/* Ancienne classe .label maintenue pour compatibilité */
 .label {
-  font-size: 1.2em;
-  color: var(--muted);
+  font-size: 1.3rem !important;
+  color: var(--accent) !important;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 2px;
+  margin: 25px 0 15px 0 !important;
+  text-align: center;
+  width: 100%;
+  font-weight: 500;
+  display: block;
 }
 
 .value {
-  margin-top: 6px;
-  font-size: 2.5em;
+  margin: 0;
+  font-size: 2em;
   font-variant-numeric: tabular-nums;
   font-weight: 400;
+  line-height: 1.2;
 }
 
 .footer {
@@ -260,6 +269,113 @@ h1 {
   color: var(--muted);
 }
 
+
+/* Styles pour la section d'information */
+.info-section {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0;
+  color: var(--text);
+  line-height: 1.6;
+  background: none;
+  box-shadow: none;
+}
+
+/* Styles pour le texte standard */
+.info-section p,
+.info-section li {
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--text);
+  margin: 6px 0;
+  line-height: 1.4;
+}
+
+/* Style commun pour les titres de section */
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--accent);
+  margin: 15px 0 8px 0;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  width: 100%;
+}
+
+/* Rétrocompatibilité avec les sélecteurs existants */
+.info-section h2 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--accent);
+  margin: 25px 0 15px 0;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  width: 100%;
+}
+
+/* Style pour les titres de section h3 */
+.info-section h3 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--accent);
+  margin: 20px 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.info-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+  text-align: left;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Style pour les éléments de liste */
+.info-section li {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  padding-left: 30px;
+  position: relative;
+  min-height: 24px;
+}
+
+/* Style pour le texte en gras (titre) */
+.info-section li strong {
+  white-space: nowrap;
+  margin-right: 4px;
+}
+
+/* Style pour le texte après les deux points */
+.info-section li span {
+  white-space: normal;
+  display: inline;
+}
+
+/* Flèche avant chaque élément */
+.info-section li:before {
+  content: "arrow_forward_ios";
+  font-family: 'Material Icons';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 0.9em;
+  font-weight: normal;
+  line-height: 1.5;
+}
+
+/* Ajout d'un espace avant les deux points */
+.info-section li:has(span)::after {
+  content: " :";
+  margin: 0 4px;
+  font-feature-settings: 'liga';
+}
 
 /* Responsive pour tablettes */
 @media screen and (max-width: 1024px) and (min-width: 769px) {

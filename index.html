@@ -1,9 +1,16 @@
 <!doctype html>
 <html lang="fr">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Quelle date sommes-nous ?</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horloge Interactive | Découvrez l'heure mondiale et plus encore</title>
+    <meta name="description" content="Une horloge interactive moderne affichant l'heure, la date, les jours écoulés, et des informations météorologiques en temps réel. Découvrez des faits intéressants sur le temps qui passe.">
+    <meta name="keywords" content="horloge, heure, date, météo, temps, compteur, jour de l'année, décompte, fuseau horaire">
+    <meta name="author" content="Clipdescript">
+    <meta property="og:title" content="Horloge Interactive | Découvrez l'heure mondiale">
+    <meta property="og:description" content="Une horloge interactive moderne avec heure, date, météo et faits intéressants.">
+    <meta property="og:url" content="https://clipdescript.github.io/Mon-site/">
+    <meta property="og:type" content="website">
     <link rel="icon" type="image/png" href="Logo.png" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="portable.css" media="screen and (max-width: 768px)" />
@@ -52,25 +59,25 @@
       <img src="nouvel-an.jpg" alt="Joyeux Noël et Bonne Année" class="holiday-image" style="display: none; max-height: 30vh; width: auto; position: fixed; right: 20px; top: 50%; transform: translateY(-50%);">
     </div>
     <main class="app" aria-live="polite">
-      <h1>Bonne journée</h1>
+      <h1 class="section-title">Bonne journée</h1>
 
       <section class="card">
-        <div class="label">Heure</div>
+        <div class="section-title">Heure</div>
         <div id="time" class="value" role="status">--:--:--</div>
       </section>
 
       <section class="card">
-        <div class="label">Date</div>
+        <div class="section-title">Date</div>
         <div id="date" class="value">--</div>
       </section>
 
       <section class="card">
-        <div class="label">Info du jour</div>
+        <div class="section-title">Info du jour</div>
         <div id="dayOfYear" class="value">--</div>
       </section>
 
       <section class="card">
-        <div class="label">Météo actuelle</div>
+        <div class="section-title">Météo actuelle</div>
         <div id="weather" class="value">
           <div id="weather-container" style="display: flex; justify-content: center; align-items: center; gap: 12px; margin: 10px 0; min-height: 60px;">
             <div id="weather-icon" style="font-size: 2rem;"></div>
@@ -80,10 +87,25 @@
         </div>
       </section>
 
-      <div style="text-align: center; margin: 20px 0; color: var(--muted); line-height: 1.4; max-width: 800px; margin-left: auto; margin-right: auto; padding: 15px 0; border-top: 1px solid var(--border);">
-        <p style="font-size: 1.1em; margin: 0 0 12px 0; color: var(--text);">Ce site a été conçu pour être simple, rapide et entièrement utilisable hors ligne.</p>
-        <p style="font-size: 1.1em; margin: 0; color: var(--text);">Il fonctionne même sans connexion Internet après le premier chargement.</p>
-      </div>
+      <section class="info-section">
+        <h2>À Propos de Cette Horloge Interactive</h2>
+        <p>Bienvenue sur votre horloge interactive personnelle. Ce site a été conçu pour vous fournir des informations temporelles précises et utiles, tout en étant rapide, léger et entièrement fonctionnel hors ligne après le premier chargement.</p>
+        
+        <h3>Pourquoi utiliser cette horloge ?</h3>
+        <ul>
+          <li><strong>Précision</strong> : Heure synchronisée avec votre appareil</li>
+          <li><strong>Météo en direct</strong> : Données météo en temps réel basées sur votre position (Paris par défaut) via Open-Meteo</li>
+          <li><strong>Compteur de l'année</strong> : Suivez la progression de l'année en cours</li>
+          <li><strong>Design épuré</strong> : Interface claire et facile à lire</li>
+          <li><strong>Mode sombre</strong> : Protection de vos yeux en toutes circonstances</li>
+        </ul>
+
+        <h3>Le Saviez-vous ?</h3>
+        <p>Le temps universel coordonné (UTC) est la référence temporelle à partir de laquelle sont calculés les fuseaux horaires dans le monde. Votre heure locale est calculée en fonction de votre fuseau horaire et des éventuels ajustements pour l'heure d'été.</p>
+        
+        <h3>Accessibilité</h3>
+        <p>Ce site a été conçu pour être accessible à tous. Si vous rencontrez des difficultés ou souhaitez suggérer des améliorations, n'hésitez pas à nous contacter.</p>
+      </section>
 
       <footer class="footer">
         <small></small>
