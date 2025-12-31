@@ -72,13 +72,18 @@
       <section class="card">
         <div class="label">Météo actuelle</div>
         <div id="weather" class="value">
-          <div id="weather-container" style="display: flex; justify-content: center; align-items: center; gap: 15px; margin: 15px 0; min-height: 80px;">
-            <div id="weather-icon"></div>
-            <div id="weather-temp" style="font-size: 2.5rem; font-weight: 300;">--°C</div>
+          <div id="weather-container" style="display: flex; justify-content: center; align-items: center; gap: 12px; margin: 10px 0; min-height: 60px;">
+            <div id="weather-icon" style="font-size: 2rem;"></div>
+            <div id="weather-temp" style="font-size: 1.8rem; font-weight: 300;">--°C</div>
           </div>
-          <div id="weather-text">Chargement de la météo...</div>
+          <div id="weather-text" style="font-size: 0.9em;">Chargement de la météo...</div>
         </div>
       </section>
+
+      <div style="text-align: center; margin: 20px 0; color: var(--muted); line-height: 1.4; max-width: 800px; margin-left: auto; margin-right: auto; padding: 15px 0; border-top: 1px solid var(--border);">
+        <p style="font-size: 1.1em; margin: 0 0 12px 0; color: var(--text);">Ce site a été conçu pour être simple, rapide et entièrement utilisable hors ligne.</p>
+        <p style="font-size: 1.1em; margin: 0; color: var(--text);">Il fonctionne même sans connexion Internet après le premier chargement.</p>
+      </div>
 
       <footer class="footer">
         <small></small>
@@ -86,28 +91,5 @@
     </main>
 
     <script src="script.js" defer></script>
-    
-    <!-- Message d'abandon -->
-    <div class="abandoned-notice">
-      <div class="abandoned-hint">Passez la souris ici</div>
-      <div class="abandoned-content">
-        <span class="material-icons">warning</span>
-        <div>
-          <p>Ce site est abandonné et n'est plus mis à jour.</p>
-          <p>Vous pouvez l'améliorer sur <a href="https://github.com/Clipdescript/Mon-site" target="_blank" rel="noopener noreferrer">https://github.com/Clipdescript/Mon-site</a></p>
-        </div>
-      </div>
-    </div>
-    
-    <div class="abandoned-notice right-notice">
-      <div class="abandoned-hint">Passez la souris ici</div>
-      <div class="abandoned-content">
-        <span class="material-icons" style="color: #2196F3">info</span>
-        <div>
-          <p>Ce site est open source donc copiable et modifiable.</p>
-          <p>Abandonné à cause de nombreux bugs et problèmes dans le code, ainsi que par manque de temps et changement de priorités.</p>
-        </div>
-      </div>
-    </div>
   </body>
 </html>
