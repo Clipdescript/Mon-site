@@ -327,17 +327,28 @@ function initVolumeToggle() {
   const volumeToggle = document.querySelector('.settings-icon');
   const volumeIcon = volumeToggle.querySelector('.material-icons');
 
-  // Vérifier l'état sauvegardé du volume ou utiliser activé par défaut
+  // Vérifier l'état sauvegardé du volume ou utiliser désactivé par défaut
   const savedVolumeState = localStorage.getItem('volume-enabled');
-  const isVolumeEnabled = savedVolumeState !== null ? savedVolumeState === 'true' : true;
+  const isVolumeEnabled = savedVolumeState !== null ? savedVolumeState === 'true' : false;
 
-  // Appliquer l'état initial
+  // Appliquer l'état initial (désactivé par défaut)
   updateVolumeIcon(volumeIcon, isVolumeEnabled);
+  
+  // Si le son est activé, l'arrêter au démarrage
+  if (isVolumeEnabled && 'speechSynthesis' in window) {
+    speechSynthesis.cancel();
+  }
+
+  // Mettre à jour le titre du bouton en fonction de l'état initial
+  volumeToggle.title = isVolumeEnabled ? 'Désactiver le haut-parleur' : 'Activer le haut-parleur';
 
   // Gérer le toggle au clic
   volumeToggle.addEventListener('click', () => {
-    const currentState = localStorage.getItem('volume-enabled') !== 'false';
+    const currentState = localStorage.getItem('volume-enabled') === 'true';
     const newState = !currentState;
+    
+    // Mettre à jour le titre du bouton
+    volumeToggle.title = newState ? 'Désactiver le haut-parleur' : 'Activer le haut-parleur';
 
     // Animation de clic
     volumeIcon.style.transform = 'scale(0.8)';

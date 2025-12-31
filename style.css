@@ -246,6 +246,96 @@ h1 {
   color: var(--muted);
 }
 
+/* Message d'abandon */
+.abandoned-notice {
+  position: fixed;
+  left: 20px;
+  bottom: -60px; /* La moitié de la popup est cachée */
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 20px 25px 15px 25px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  font-size: 15px;
+  line-height: 1.5;
+  transition: bottom 0.3s ease-out;
+}
+
+/* Style pour la popup de droite */
+.right-notice {
+  left: auto;
+  right: 20px;
+}
+
+/* Montrer plus de la popup au survol */
+.abandoned-notice:hover {
+  bottom: 0;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    bottom: -100px;
+  }
+  to {
+    opacity: 1;
+    bottom: -60px;
+  }
+}
+
+.abandoned-content {
+  display: flex;
+  gap: 15px;
+  align-items: flex-start;
+  padding: 5px;
+}
+
+.abandoned-content .material-icons {
+  color: #f44336;
+  font-size: 24px;
+  margin-top: 2px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.abandoned-content a {
+  color: #2196f3;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.abandoned-content a:hover {
+  color: #0d8aee;
+  text-decoration: underline;
+}
+
+.abandoned-content p {
+  margin: 0;
+  color: var(--text);
+}
+
+.abandoned-content p + p {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Pas d'effet de survol */
+
+/* Responsive */
+@media (max-width: 480px) {
+  .abandoned-notice {
+    right: 20px;
+    max-width: none;
+    bottom: 10px;
+  }
+}
+
 /* Responsive pour tablettes */
 @media screen and (max-width: 1024px) and (min-width: 769px) {
   .app {
