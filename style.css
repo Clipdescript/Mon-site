@@ -6,6 +6,8 @@
   background-color: var(--bg);
   color: var(--text);
   line-height: 1.6;
+  font-size: 1.1em;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .legal-content h1 {
