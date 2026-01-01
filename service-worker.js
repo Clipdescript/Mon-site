@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mon-site-cache-v5';  // Version incrémentée pour forcer la mise à jour
+const CACHE_NAME = 'mon-site-cache-v6';  // Version incrémentée pour forcer la mise à jour
 const urlsToCache = [
   '/Mon-site/',
   '/Mon-site/index.html',
@@ -7,6 +7,7 @@ const urlsToCache = [
   '/Mon-site/style.css',
   '/Mon-site/portable.css',
   '/Mon-site/script.js',
+  '/Mon-site/offline.js',
   '/Mon-site/Logo.png',
   '/Mon-site/nouvel-an.jpg',
   '/Mon-site/OpenSource.webp'

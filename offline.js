@@ -518,72 +518,96 @@ const iconToEmoji = {
   'wc': '🚻',
   'wifi': '📶',
   'ac_unit': '❄️',
-  'airport_shuttle': '🚌',
-  'all_inclusive': '♾️',
-  'beach_access': '🏖️',
-  'business_center': '🏢',
-  'casino': '🎰',
-  'child_care': '👶',
-  'child_friendly': '👶',
-  'fitness_center': '💪',
-  'free_breakfast': '☕',
-  'golf_course': '⛳',
-  'hot_tub': '🛁',
-  'kitchen': '🍳',
-  'pool': '🏊',
-  'room_service': '🍽️',
-  'rv_hookup': '🚐',
-  'smoke_free': '🚭',
-  'smoking_rooms': '🚬',
-  'spa': '💆'
 };
 
 // Fonction pour remplacer les icônes par des émojis
 function replaceIconsWithEmojis() {
   const icons = document.querySelectorAll('.material-icons');
+  let replacedCount = 0;
+  
   icons.forEach(icon => {
     const iconName = icon.textContent.trim();
     if (iconToEmoji[iconName]) {
-      icon.textContent = iconToEmoji[iconName];
-    } else {
-      // Si l'icône n'est pas dans notre mappage, on utilise un point d'interrogation
-      icon.textContent = '❓';
-    }
-  });
-}
-
-// Fonction pour restaurer les icônes Material Icons
-function restoreIcons() {
-  const icons = document.querySelectorAll('.material-icons');
-  icons.forEach(icon => {
-    const iconName = icon.getAttribute('data-icon-name');
-    if (iconName) {
-      icon.textContent = iconName;
-    }
-  });
-}
-
-// Fonction pour mettre à jour l'état de la connexion
-function updateConnectionStatus() {
-  if (!navigator.onLine) {
-    // Sauvegarder les noms des icônes avant de les remplacer
-    const icons = document.querySelectorAll('.material-icons');
-    icons.forEach(icon => {
+      // Sauvegarder le nom de l'icône dans un attribut data
       if (!icon.hasAttribute('data-icon-name')) {
-        icon.setAttribute('data-icon-name', icon.textContent.trim());
+        icon.setAttribute('data-icon-name', iconName);
+        icon.textContent = iconToEmoji[iconName];
+        replacedCount++;
+      }
+    }
+  });
+  
+  // Si aucune icône n'a été remplacée, essayer avec une approche différente
+  if (replacedCount === 0) {
+    // Essayer avec les icônes qui pourraient être dans des éléments span
+    const spans = document.querySelectorAll('span');
+    spans.forEach(span => {
+      if (span.classList && span.classList.contains('material-icons')) {
+        const iconName = span.textContent.trim();
+        if (iconToEmoji[iconName] && !span.hasAttribute('data-icon-name')) {
+          span.setAttribute('data-icon-name', iconName);
+          span.textContent = iconToEmoji[iconName];
+        }
       }
     });
+  }
+  
+  // Vérifier à nouveau après un court délai pour les icônes chargées dynamiquement
+  setTimeout(() => {
+    const dynamicIcons = document.querySelectorAll('.material-icons:not([data-icon-name])');
+    dynamicIcons.forEach(icon => {
+      const iconName = icon.textContent.trim();
+      if (iconToEmoji[iconName]) {
+        icon.setAttribute('data-icon-name', iconName);
+        icon.textContent = iconToEmoji[iconName];
+      }
+    });
+  }, 500);
+}
+
+// Fonction pour restaurer les icônes originales
+function restoreIcons() {
+  const icons = document.querySelectorAll('[data-icon-name]');
+  icons.forEach(icon => {
+    const originalIcon = icon.getAttribute('data-icon-name');
+    icon.textContent = originalIcon;
+    icon.removeAttribute('data-icon-name');
+  });
+}
+
+// Vérifier l'état de la connexion et mettre à jour les icônes en conséquence
+function updateIconsBasedOnConnection() {
+  if (!navigator.onLine) {
     replaceIconsWithEmojis();
   } else {
     restoreIcons();
   }
 }
 
+// Vérifier si l'API de détection en ligne est disponible
+const isOnlineDetectionSupported = 'onLine' in navigator;
+
+// Écouter les changements d'état de la connexion
+if (isOnlineDetectionSupported) {
+  window.addEventListener('online', updateIconsBasedOnConnection);
+  window.addEventListener('offline', updateIconsBasedOnConnection);
+}
+
 // Vérifier l'état de la connexion au chargement
 document.addEventListener('DOMContentLoaded', () => {
-  updateConnectionStatus();
+  // Vérifier immédiatement
+  updateIconsBasedOnConnection();
   
-  // Écouter les changements d'état de la connexion
-  window.addEventListener('online', updateConnectionStatus);
-  window.addEventListener('offline', updateConnectionStatus);
+  // Vérifier à nouveau après un court délai pour s'assurer que tout est chargé
+  setTimeout(updateIconsBasedOnConnection, 1000);
+  
+  // Vérifier périodiquement (au cas où l'événement ne se déclenche pas)
+  setInterval(updateIconsBasedOnConnection, 3000);
 });
+
+// Exporter les fonctions pour un accès global (au cas où)
+window.offlineIcons = {
+  replace: replaceIconsWithEmojis,
+  restore: restoreIcons,
+  update: updateIconsBasedOnConnection
+};
