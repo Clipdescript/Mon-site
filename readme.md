@@ -7,16 +7,11 @@ Une horloge interactive moderne qui affiche l'heure, la date, le jour de l'anné
 
 ## Fonctionnalités
 
-- 🕒 Affichage de l'heure en temps réel
-- ⛅ Météo locale avec prévisions (via Open-Meteo)
-- 📍 Géolocalisation automatique
-- 🌙 Mode sombre/clair automatique
-- 📱 Design responsive (mobile, tablette, desktop)
-- ⚡ Fonctionne hors ligne (PWA)
-
-## Démo en direct
-
-Découvrez l'horloge en action : [Voir la démo](https://clipdescript.github.io/Mon-site/)
+- Affichage de l'heure en temps réel
+- Météo locale avec prévisions (via Open-Meteo)
+- Mode sombre/clair automatique
+- Design responsive (mobile, tablette, desktop)
+- Fonctionne hors ligne (PWA)
 
 ## Architecture technique
 
@@ -69,11 +64,6 @@ npx http-server
 - Gestion des erreurs complète
 - Mise à jour automatique toutes les 30 minutes
 
-### Performance
-- Chargement conditionnel des CSS
-- Optimisation pour mobile
-- Mise en cache intelligente
-
 ## Contribution
 
 Les contributions sont les bienvenues ! Voici comment procéder :
@@ -84,9 +74,6 @@ Les contributions sont les bienvenues ! Voici comment procéder :
 4. Poussez vers la branche (`git push origin feature/AmazingFeature`)
 5. Ouvrez une Pull Request
 
-## Licence
-
-Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
 
 ## Remerciements
 
