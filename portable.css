@@ -1,117 +1,184 @@
-/* Styles pour mobile (max-width: 768px) */
+/* ============================================
+   RESPONSIVE DESIGN - Tous les écrans
+   ============================================ */
 
-body {
-  padding: 16px;
-}
-
-.app {
-  width: 100%;
-}
-
-h1 {
-  font-size: 24px;
-  margin: 0 0 12px;
-}
-
-.card {
-  padding: 10px 0;
-  margin: 6px 0;
-}
-
-.label {
-  font-size: 11px;
-  letter-spacing: 1px;
-}
-
-.value {
-  font-size: 24px;
-  margin-top: 6px;
-}
-
-.settings-icon {
-  top: 10px;
-  right: 10px;
-}
-
-.material-icons {
-  font-size: 20px;
-}
-
-/* Section météo responsive */
-#weather-container {
-  flex-direction: column !important;
-  gap: 10px !important;
-  min-height: auto !important;
-  margin: 10px 0 !important;
-}
-
-#weather-container img {
-  width: 60px !important;
-  height: 60px !important;
-}
-
-#weather-temp {
-  font-size: 2rem !important;
-}
-
-#weather-text {
-  font-size: 14px;
-  line-height: 1.4;
-  padding: 0 10px;
-}
-
-/* Styles 404 pour mobile */
-.error-container {
-  min-height: 60vh;
-  padding: 1rem;
-}
-
-.error-code {
-  font-size: 4rem;
-}
-
-.error-message {
-  font-size: 1.2rem;
-  margin: 1rem 0 1.5rem;
-}
-
-.back-home {
-  padding: 0.7rem 1.5rem;
-  font-size: 0.9rem;
-}
-
-/* Styles date picker pour mobile */
-.date-picker-content {
-  width: 95%;
-  max-width: 350px;
-}
-
-.date-day {
-  font-size: 56px;
-}
-
-.date-month {
-  font-size: 18px;
-}
-
-.date-picker-action-btn {
-  width: 44px;
-  height: 44px;
-}
-
-.date-picker-action-btn .material-icons {
-  font-size: 24px;
-}
-
-/* Très petits écrans (iPhone 8 et similaires) */
-@media screen and (max-width: 375px) {
+/* ============================================
+   ULTRA PETITS ÉCRANS (< 320px)
+   ============================================ */
+@media screen and (max-width: 319px) {
   body {
     padding: 8px;
   }
 
+  .app {
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 16px;
+    margin: 0 0 8px;
+    letter-spacing: 0;
+  }
+
+  .card {
+    padding: 6px 0;
+    margin: 4px 0;
+  }
+
+  .label {
+    font-size: 9px;
+    letter-spacing: 0.5px;
+  }
+
+  .value {
+    font-size: 16px;
+    margin-top: 3px;
+  }
+
+  /* Boutons fix responsive - ultra petit */
+  .theme-toggle,
+  .date-picker-toggle,
+  .settings-icon {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+  }
+
+  .theme-toggle::after,
+  .date-picker-toggle::after,
+  .settings-icon::before {
+    display: none;
+  }
+
+  .theme-toggle {
+    left: 8px;
+    top: 8px;
+  }
+
+  .date-picker-toggle {
+    left: 52px;
+    top: 8px;
+  }
+
+  .settings-icon {
+    right: 8px;
+    top: 8px;
+  }
+
+  .material-icons {
+    font-size: 18px;
+  }
+
+  /* Logo caché sur très petit écran */
+  .logo-container {
+    display: none;
+  }
+
+  /* Météo responsive */
+  #weather-container {
+    flex-direction: column !important;
+    gap: 8px !important;
+    min-height: auto !important;
+    margin: 8px 0 !important;
+  }
+
+  #weather-container img {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  #weather-temp {
+    font-size: 1.3rem !important;
+  }
+
+  #weather-text {
+    font-size: 11px;
+    padding: 0 5px;
+    line-height: 1.3;
+  }
+
+  /* Date picker */
+  .date-picker-content {
+    width: 85%;
+    max-width: 280px;
+    padding: 10px;
+  }
+
+  .date-day {
+    font-size: 36px;
+  }
+
+  .date-month {
+    font-size: 14px;
+  }
+
+  .date-picker-action-btn {
+    width: 36px;
+    height: 36px;
+  }
+
+  .date-picker-action-btn .material-icons {
+    font-size: 18px;
+  }
+
+  /* Holiday image */
+  .holiday-image {
+    max-height: 80px !important;
+    max-width: 60% !important;
+    top: 50px;
+    right: 5px;
+  }
+
+  /* Legal content */
+  .legal-content {
+    padding: 12px;
+  }
+
+  .legal-content h1 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+  }
+
+  .legal-content h2 {
+    font-size: 1.1em;
+    margin: 10px 0 3px 0;
+  }
+
+  .legal-link {
+    font-size: 0.75rem;
+  }
+
+  /* Error container */
+  .error-container {
+    padding: 0.5rem;
+  }
+
+  .error-code {
+    font-size: 2.5rem;
+  }
+
+  .error-message {
+    font-size: 1rem;
+    margin: 0.5rem 0 1rem;
+  }
+
+  .back-home {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* ============================================
+   PETITS ÉCRANS (320px - 375px)
+   ============================================ */
+@media screen and (min-width: 320px) and (max-width: 375px) {
+  body {
+    padding: 10px;
+  }
+
   h1 {
     font-size: 18px;
-    margin-bottom: 8px;
+    margin: 0 0 10px;
   }
 
   .card {
@@ -121,6 +188,7 @@ h1 {
 
   .label {
     font-size: 10px;
+    letter-spacing: 0.8px;
   }
 
   .value {
@@ -128,8 +196,50 @@ h1 {
     margin-top: 4px;
   }
 
-  #weather-temp {
-    font-size: 1.6rem !important;
+  /* Boutons fix responsive */
+  .theme-toggle {
+    left: 10px;
+    top: 10px;
+    width: 160px;
+    height: 34px;
+  }
+
+  .date-picker-toggle {
+    left: 180px;
+    top: 10px;
+    width: 150px;
+    height: 34px;
+  }
+
+  .settings-icon {
+    right: 10px;
+    top: 10px;
+    width: 160px;
+    height: 34px;
+  }
+
+  .material-icons {
+    font-size: 20px;
+  }
+
+  /* Logo responsive */
+  .logo-container {
+    top: 55px;
+    left: 10px;
+    width: 80px;
+    height: 80px;
+  }
+
+  .top-logo {
+    width: 70px;
+    height: 70px;
+  }
+
+  /* Météo */
+  #weather-container {
+    flex-direction: column !important;
+    gap: 8px !important;
+    margin: 10px 0 !important;
   }
 
   #weather-container img {
@@ -137,14 +247,21 @@ h1 {
     height: 45px !important;
   }
 
+  #weather-temp {
+    font-size: 1.5rem !important;
+  }
+
   #weather-text {
     font-size: 12px;
     padding: 0 8px;
+    line-height: 1.3;
   }
 
+  /* Date picker */
   .date-picker-content {
     width: 90%;
-    padding: 15px;
+    max-width: 300px;
+    padding: 12px;
   }
 
   .date-day {
@@ -154,29 +271,114 @@ h1 {
   .date-month {
     font-size: 16px;
   }
-  
+
   .holiday-image {
     max-height: 25vh !important;
-    max-width: 80% !important;
+    max-width: 75% !important;
+    top: 55px;
+  }
+
+  /* Legal */
+  .legal-content {
+    padding: 15px;
+  }
+
+  .legal-content h1 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+  }
+
+  .legal-content h2 {
+    font-size: 1.3em;
+  }
+
+  /* Error page */
+  .error-code {
+    font-size: 3rem;
+  }
+
+  .error-message {
+    font-size: 1.1rem;
+    margin: 1rem 0 1.2rem;
+  }
+
+  .back-home {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
   }
 }
 
-/* Petits écrans (< 400px) */
-@media screen and (max-width: 400px) and (min-width: 376px) {
+/* ============================================
+   TÉLÉPHONES (376px - 480px)
+   ============================================ */
+@media screen and (min-width: 376px) and (max-width: 480px) {
   body {
     padding: 12px;
   }
 
   h1 {
     font-size: 20px;
+    margin: 0 0 12px;
+  }
+
+  .card {
+    padding: 10px 0;
+    margin: 6px 0;
+  }
+
+  .label {
+    font-size: 11px;
   }
 
   .value {
+    font-size: 22px;
+    margin-top: 6px;
+  }
+
+  /* Boutons fix responsive */
+  .theme-toggle {
+    left: 12px;
+    top: 12px;
+    width: 170px;
+    height: 36px;
+  }
+
+  .date-picker-toggle {
+    left: 192px;
+    top: 12px;
+    width: 160px;
+    height: 36px;
+  }
+
+  .settings-icon {
+    right: 12px;
+    top: 12px;
+    width: 180px;
+    height: 36px;
+  }
+
+  .material-icons {
     font-size: 20px;
   }
 
-  #weather-temp {
-    font-size: 1.8rem !important;
+  /* Logo */
+  .logo-container {
+    top: 60px;
+    left: 12px;
+    width: 90px;
+    height: 90px;
+  }
+
+  .top-logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* Météo */
+  #weather-container {
+    flex-direction: column !important;
+    gap: 10px !important;
+    margin: 10px 0 !important;
   }
 
   #weather-container img {
@@ -184,24 +386,793 @@ h1 {
     height: 50px !important;
   }
 
+  #weather-temp {
+    font-size: 1.8rem !important;
+  }
+
   #weather-text {
     font-size: 13px;
+    padding: 0 10px;
+  }
+
+  /* Date picker */
+  .date-picker-content {
+    width: 92%;
+    max-width: 320px;
+    padding: 15px;
+  }
+
+  .date-day {
+    font-size: 48px;
+  }
+
+  .date-month {
+    font-size: 18px;
+  }
+
+  .date-picker-action-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  .date-picker-action-btn .material-icons {
+    font-size: 24px;
+  }
+
+  /* Legal content */
+  .legal-content {
+    padding: 18px;
+    font-size: 1rem;
+  }
+
+  .legal-content h1 {
+    font-size: 1.9em;
+  }
+
+  .legal-content h2 {
+    font-size: 1.4em;
+  }
+
+  /* How it works */
+  .how-it-works {
+    max-width: 100%;
+    padding: 0 12px;
+    font-size: 1rem;
+  }
+
+  /* Error */
+  .error-container {
+    min-height: 60vh;
+    padding: 1.5rem;
   }
 
   .error-code {
-    font-size: 3rem;
+    font-size: 3.5rem;
   }
 
   .error-message {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    margin: 1rem 0 1.5rem;
   }
 
   .back-home {
-    padding: 0.6rem 1.2rem;
-    font-size: 0.85rem;
+    padding: 0.7rem 1.5rem;
+    font-size: 0.9rem;
   }
-  
+}
+
+/* ============================================
+   PETITES TABLETTES (481px - 600px)
+   ============================================ */
+@media screen and (min-width: 481px) and (max-width: 600px) {
+  body {
+    padding: 14px;
+  }
+
+  h1 {
+    font-size: 24px;
+    margin: 0 0 14px;
+  }
+
+  .card {
+    padding: 12px 0;
+    margin: 7px 0;
+  }
+
+  .label {
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+
+  .value {
+    font-size: 26px;
+    margin-top: 8px;
+  }
+
+  /* Boutons fix responsive */
+  .theme-toggle {
+    left: 14px;
+    top: 14px;
+    width: 180px;
+    height: 36px;
+  }
+
+  .date-picker-toggle {
+    left: 204px;
+    top: 14px;
+    width: 170px;
+    height: 36px;
+  }
+
+  .settings-icon {
+    right: 14px;
+    top: 14px;
+    width: 190px;
+    height: 36px;
+  }
+
+  .material-icons {
+    font-size: 22px;
+  }
+
+  /* Logo */
+  .logo-container {
+    top: 62px;
+    left: 14px;
+    width: 95px;
+    height: 95px;
+  }
+
+  .top-logo {
+    width: 85px;
+    height: 85px;
+  }
+
+  /* Météo */
+  #weather-container {
+    flex-direction: column !important;
+    gap: 12px !important;
+    margin: 12px 0 !important;
+  }
+
+  #weather-container img {
+    width: 55px !important;
+    height: 55px !important;
+  }
+
+  #weather-temp {
+    font-size: 2rem !important;
+  }
+
+  #weather-text {
+    font-size: 14px;
+    padding: 0 12px;
+    line-height: 1.4;
+  }
+
+  /* Date picker */
+  .date-picker-content {
+    width: 94%;
+    max-width: 340px;
+    padding: 18px;
+  }
+
   .date-day {
-    font-size: 48px;
+    font-size: 56px;
+  }
+
+  .date-month {
+    font-size: 20px;
+  }
+
+  /* Legal content */
+  .legal-content {
+    max-width: 95%;
+    padding: 20px;
+    font-size: 1.05rem;
+  }
+
+  .legal-content h1 {
+    font-size: 2em;
+  }
+
+  .legal-content h2 {
+    font-size: 1.5em;
+  }
+
+  /* How it works */
+  .how-it-works {
+    max-width: 100%;
+    padding: 0 15px;
+  }
+}
+
+/* ============================================
+   TABLETTE STANDARD (601px - 768px)
+   ============================================ */
+@media screen and (min-width: 601px) and (max-width: 768px) {
+  body {
+    padding: 16px;
+  }
+
+  .app {
+    width: 95%;
+    max-width: 650px;
+  }
+
+  h1 {
+    font-size: 28px;
+    margin: 0 0 16px;
+  }
+
+  .card {
+    padding: 14px 0;
+    margin: 8px 0;
+  }
+
+  .label {
+    font-size: 13px;
+    letter-spacing: 1.2px;
+  }
+
+  .value {
+    font-size: 28px;
+    margin-top: 10px;
+  }
+
+  /* Boutons fix responsive */
+  .theme-toggle {
+    left: 16px;
+    top: 16px;
+    width: 190px;
+    height: 38px;
+  }
+
+  .date-picker-toggle {
+    left: 216px;
+    top: 16px;
+    width: 180px;
+    height: 38px;
+  }
+
+  .settings-icon {
+    right: 16px;
+    top: 16px;
+    width: 200px;
+    height: 38px;
+  }
+
+  .theme-toggle::after,
+  .date-picker-toggle::after,
+  .settings-icon::before {
+    font-size: 13px;
+  }
+
+  .material-icons {
+    font-size: 22px;
+  }
+
+  /* Logo */
+  .logo-container {
+    top: 70px;
+    left: 16px;
+    width: 105px;
+    height: 105px;
+  }
+
+  .top-logo {
+    width: 95px;
+    height: 95px;
+  }
+
+  /* Météo */
+  #weather-container {
+    flex-direction: column !important;
+    gap: 14px !important;
+    margin: 14px 0 !important;
+  }
+
+  #weather-container img {
+    width: 60px !important;
+    height: 60px !important;
+  }
+
+  #weather-temp {
+    font-size: 2.2rem !important;
+  }
+
+  #weather-text {
+    font-size: 15px;
+    padding: 0 14px;
+  }
+
+  /* Date picker */
+  .date-picker-content {
+    width: 96%;
+    max-width: 360px;
+    padding: 20px;
+  }
+
+  .date-day {
+    font-size: 60px;
+  }
+
+  .date-month {
+    font-size: 22px;
+  }
+
+  .date-picker-action-btn {
+    width: 48px;
+    height: 48px;
+  }
+
+  .date-picker-action-btn .material-icons {
+    font-size: 26px;
+  }
+
+  /* Legal content */
+  .legal-content {
+    max-width: 100%;
+    padding: 24px;
+    font-size: 1.1rem;
+  }
+
+  .legal-content h1 {
+    font-size: 2.1em;
+    margin-bottom: 25px;
+  }
+
+  .legal-content h2 {
+    font-size: 1.6em;
+  }
+
+  /* How it works */
+  .how-it-works {
+    font-size: 1.05rem;
+  }
+
+  /* Error */
+  .error-code {
+    font-size: 4.5rem;
+  }
+
+  .error-message {
+    font-size: 1.3rem;
+    margin: 1.2rem 0 1.5rem;
+  }
+}
+
+/* ============================================
+   PETIT DESKTOP (769px - 1024px)
+   ============================================ */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  body {
+    padding: 20px;
+  }
+
+  .app {
+    width: min(680px, 95%);
+  }
+
+  h1 {
+    font-size: 2.3em;
+    margin: 0 0 18px;
+  }
+
+  .card {
+    padding: 16px 0;
+    margin: 10px 0;
+  }
+
+  .label {
+    font-size: 14px;
+    letter-spacing: 1.3px;
+  }
+
+  .value {
+    font-size: 2.4rem;
+    margin-top: 12px;
+  }
+
+  /* Boutons fix responsive */
+  .theme-toggle {
+    left: 20px;
+    top: 20px;
+    width: 200px;
+    height: 40px;
+  }
+
+  .date-picker-toggle {
+    left: 230px;
+    top: 20px;
+    width: 190px;
+    height: 40px;
+  }
+
+  .settings-icon {
+    right: 20px;
+    top: 20px;
+    width: 220px;
+    height: 40px;
+  }
+
+  .material-icons {
+    font-size: 24px;
+  }
+
+  /* Logo */
+  .logo-container {
+    top: 80px;
+    left: 20px;
+    width: 110px;
+    height: 110px;
+  }
+
+  .top-logo {
+    width: 100px;
+    height: 100px;
+  }
+
+  /* Météo */
+  #weather-container {
+    flex-direction: row !important;
+    gap: 20px !important;
+    margin: 16px 0 !important;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #weather-container img {
+    width: 70px !important;
+    height: 70px !important;
+  }
+
+  #weather-temp {
+    font-size: 2.5rem !important;
+  }
+
+  #weather-text {
+    font-size: 16px;
+    padding: 0;
+  }
+
+  /* Date picker */
+  .date-picker-content {
+    width: 98%;
+    max-width: 380px;
+    padding: 24px;
+  }
+
+  .date-day {
+    font-size: 64px;
+  }
+
+  .date-month {
+    font-size: 24px;
+  }
+
+  /* Legal */
+  .legal-content {
+    max-width: 800px;
+    padding: 30px;
+    font-size: 1.1em;
+  }
+
+  .legal-content h1 {
+    font-size: 2.2em;
+  }
+
+  .legal-content h2 {
+    font-size: 1.7em;
+  }
+
+  /* Holiday image */
+  .holiday-image {
+    max-height: 150px !important;
+    max-width: 250px !important;
+  }
+}
+
+/* ============================================
+   DESKTOP LARGE (> 1024px)
+   ============================================ */
+@media screen and (min-width: 1025px) {
+  body {
+    padding: 24px;
+  }
+
+  .app {
+    width: min(680px, 98%);
+  }
+
+  h1 {
+    font-size: 2.5em;
+    margin: 0 0 20px;
+  }
+
+  .card {
+    padding: 18px 0;
+    margin: 12px 0;
+  }
+
+  .label {
+    font-size: 15px;
+    letter-spacing: 1.5px;
+  }
+
+  .value {
+    font-size: 2.8rem;
+    margin-top: 14px;
+  }
+
+  /* Boutons fix responsive */
+  .theme-toggle {
+    left: 24px;
+    top: 24px;
+    width: 200px;
+    height: 40px;
+  }
+
+  .date-picker-toggle {
+    left: 234px;
+    top: 24px;
+    width: 190px;
+    height: 40px;
+  }
+
+  .settings-icon {
+    right: 24px;
+    top: 24px;
+    width: 220px;
+    height: 40px;
+  }
+
+  .material-icons {
+    font-size: 24px;
+  }
+
+  /* Logo */
+  .logo-container {
+    top: 90px;
+    left: 24px;
+    width: 120px;
+    height: 120px;
+  }
+
+  .top-logo {
+    width: 110px;
+    height: 110px;
+  }
+
+  /* Météo */
+  #weather-container {
+    flex-direction: row !important;
+    gap: 24px !important;
+    margin: 18px 0 !important;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #weather-container img {
+    width: 80px !important;
+    height: 80px !important;
+  }
+
+  #weather-temp {
+    font-size: 2.8rem !important;
+  }
+
+  #weather-text {
+    font-size: 17px;
+  }
+
+  /* Date picker */
+  .date-picker-content {
+    width: 100%;
+    max-width: 400px;
+    padding: 28px;
+  }
+
+  .date-day {
+    font-size: 70px;
+  }
+
+  .date-month {
+    font-size: 26px;
+  }
+
+  .date-picker-action-btn {
+    width: 52px;
+    height: 52px;
+  }
+
+  .date-picker-action-btn .material-icons {
+    font-size: 28px;
+  }
+
+  /* Legal */
+  .legal-content {
+    max-width: 900px;
+    padding: 40px;
+    font-size: 1.15em;
+  }
+
+  .legal-content h1 {
+    font-size: 2.5em;
+    margin-bottom: 35px;
+  }
+
+  .legal-content h2 {
+    font-size: 1.9em;
+  }
+
+  .legal-link {
+    font-size: 0.9rem;
+  }
+
+  /* How it works */
+  .how-it-works {
+    max-width: 850px;
+    margin: 2.5rem auto;
+    padding: 0 2rem;
+    font-size: 1.15rem;
+    line-height: 1.7;
+  }
+
+  /* Holiday image */
+  .holiday-image {
+    max-height: 180px !important;
+    max-width: 280px !important;
+    top: 110px;
+  }
+
+  /* Error */
+  .error-container {
+    min-height: 80vh;
+    padding: 3rem;
+  }
+
+  .error-code {
+    font-size: 5.5rem;
+  }
+
+  .error-message {
+    font-size: 1.5rem;
+    margin: 1.5rem 0 2rem;
+  }
+
+  .back-home {
+    padding: 0.9rem 2rem;
+    font-size: 1rem;
+  }
+}
+
+/* ============================================
+   TRÈS GRAND ÉCRAN (> 1440px)
+   ============================================ */
+@media screen and (min-width: 1441px) {
+  body {
+    padding: 32px;
+  }
+
+  h1 {
+    font-size: 2.8em;
+    margin: 0 0 24px;
+  }
+
+  .card {
+    padding: 20px 0;
+    margin: 14px 0;
+  }
+
+  .label {
+    font-size: 16px;
+  }
+
+  .value {
+    font-size: 3.2rem;
+    margin-top: 16px;
+  }
+
+  /* Boutons fix */
+  .theme-toggle {
+    left: 32px;
+    top: 32px;
+    width: 220px;
+    height: 42px;
+  }
+
+  .date-picker-toggle {
+    left: 262px;
+    top: 32px;
+    width: 210px;
+    height: 42px;
+  }
+
+  .settings-icon {
+    right: 32px;
+    top: 32px;
+    width: 240px;
+    height: 42px;
+  }
+
+  .theme-toggle::after,
+  .date-picker-toggle::after,
+  .settings-icon::before {
+    font-size: 16px;
+  }
+
+  .material-icons {
+    font-size: 26px;
+  }
+
+  /* Logo */
+  .logo-container {
+    top: 110px;
+    left: 32px;
+    width: 140px;
+    height: 140px;
+  }
+
+  /* Météo */
+  #weather-container {
+    gap: 32px !important;
+    margin: 24px 0 !important;
+  }
+
+  #weather-container img {
+    width: 90px !important;
+    height: 90px !important;
+  }
+
+  #weather-temp {
+    font-size: 3.2rem !important;
+  }
+
+  #weather-text {
+    font-size: 18px;
+  }
+
+  /* Legal */
+  .legal-content {
+    max-width: 1000px;
+    padding: 48px;
+    font-size: 1.2em;
+  }
+
+  .legal-content h1 {
+    font-size: 2.8em;
+  }
+
+  .legal-content h2 {
+    font-size: 2em;
+  }
+
+  /* How it works */
+  .how-it-works {
+    max-width: 950px;
+    font-size: 1.2rem;
+  }
+
+  /* Holiday image */
+  .holiday-image {
+    max-height: 220px !important;
+    max-width: 320px !important;
+    top: 130px;
+  }
+
+  /* Error */
+  .error-container {
+    min-height: 85vh;
+    padding: 4rem;
+  }
+
+  .error-code {
+    font-size: 6rem;
+  }
+
+  .error-message {
+    font-size: 1.7rem;
+    margin: 2rem 0 2.5rem;
   }
 }

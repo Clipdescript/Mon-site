@@ -136,7 +136,7 @@
 .date-picker-toggle {
   position: fixed;
   top: 15px;
-  left: 225px; /* Ajusté pour éviter le chevauchement avec le premier bouton */
+  left: 225px;
   cursor: pointer;
   z-index: 1000;
   background-color: var(--settings-bg);
@@ -165,15 +165,6 @@
 
 .date-picker-toggle:hover {
   background-color: var(--settings-bg-hover);
-}
-
-/* Ajustement de l'espacement entre les boutons */
-.theme-toggle {
-  left: 15px;
-}
-
-.date-picker-toggle {
-  left: 225px;
 }
 
 /* Bouton des paramètres */
