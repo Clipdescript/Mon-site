@@ -18,6 +18,7 @@
     <meta name="twitter:description" content="Guide complet de l'Horloge Interactive.">
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="portable.css" media="screen and (max-width: 768px)" />
     <link rel="icon" type="image/png" href="Logo.png" />
     <link rel="apple-touch-icon" href="Logo.png" />
     <link rel="shortcut icon" href="Logo.png" type="image/png" />
@@ -119,15 +120,24 @@
     </style>
 </head>
 <body>
-    <div class="theme-toggle" title="Changer de thème">
-        <span class="material-icons">dark_mode</span>
-    </div>
-    <div class="settings-icon" title="Retour à l'accueil">
-        <span class="material-icons">home</span>
-    </div>
-    <div class="logo-container">
-        <img src="Logo.png" alt="Logo" class="top-logo">
-    </div>
+    <header class="navbar">
+      <div class="navbar-left">
+        <div class="logo-container">
+          <img src="Logo.png" alt="Logo" class="top-logo">
+        </div>
+      </div>
+      <div class="navbar-center">
+        <h1 class="navbar-title">Quel jour sommes nous</h1>
+      </div>
+      <div class="navbar-right">
+        <button class="theme-toggle" title="Changer de thème">
+          <span class="material-icons">dark_mode</span>
+        </button>
+        <button class="settings-icon" title="Retour à l'accueil">
+          <span class="material-icons">home</span>
+        </button>
+      </div>
+    </header>
     
     <main class="how-it-works">
         <h1>Comment ça marche ?</h1>
