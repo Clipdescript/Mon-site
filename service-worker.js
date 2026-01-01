@@ -1,16 +1,12 @@
-const CACHE_NAME = 'mon-site-cache-v9';
+const CACHE_NAME = 'mon-site-cache-v10';
 
 // Fichiers essentiels à mettre en cache
 const urlsToCache = [
-  '/Mon-site/index.html',
-  '/Mon-site/mentions-legales.html',
-  '/Mon-site/comment-ca-marche.html',
-  '/Mon-site/style.css',
-  '/Mon-site/portable.css',
-  '/Mon-site/script.js',
-  '/Mon-site/offline.js',
-  '/Mon-site/Logo.png',
-  '/Mon-site/404.html'
+  './',
+  './index.html',
+  './style.css',
+  './portable.css',
+  './script.js'
 ];
 
 // Installation du Service Worker
@@ -22,7 +18,14 @@ self.addEventListener('install', event => {
     caches.open(CACHE_NAME)
       .then(cache => {
         console.log('Installation du Service Worker et mise en cache des ressources');
-        return cache.addAll(urlsToCache);
+        // Mettre en cache chaque fichier individuellement pour éviter que l'un échoue bloque tous les autres
+        return Promise.all(
+          urlsToCache.map(url => {
+            return cache.add(url).catch(error => {
+              console.warn(`Impossible de mettre en cache ${url}:`, error);
+            });
+          })
+        );
       })
       .catch(error => {
         console.error('Erreur lors de l\'installation du Service Worker:', error);
