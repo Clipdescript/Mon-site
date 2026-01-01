@@ -20,6 +20,11 @@ function getGreeting(now) {
     return ''; // Pas de salutation sur la page des mentions légales
   }
   
+  // Ne pas afficher le message sur la page 'Comment ça marche ?'
+  if (window.location.pathname.includes('comment-ca-marche.html')) {
+    return '';
+  }
+  
   const hour = now.getHours();
   const month = now.getMonth();
   const day = now.getDate();
@@ -81,7 +86,11 @@ function updateClock() {
 
   // Mettre à jour le titre avec la salutation appropriée
   if (titleEl) {
-    titleEl.textContent = getGreeting(now);
+    if (window.location.pathname.includes('comment-ca-marche.html')) {
+      titleEl.style.display = 'none';
+    } else {
+      titleEl.textContent = getGreeting(now);
+    }
   }
 
   // Afficher l'image de fête seulement les 30 et 31 décembre
