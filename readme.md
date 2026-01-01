@@ -1,6 +1,5 @@
 # Horloge Interactive - Projet Open Source
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
 
 Une horloge interactive moderne qui affiche l'heure, la date, le jour de l'année et la météo en temps réel. Développé avec des technologies web modernes et entièrement open source.
@@ -80,10 +79,3 @@ Les contributions sont les bienvenues ! Voici comment procéder :
 - [Open-Meteo](https://open-meteo.com/) pour l'API météo gratuite
 - [OpenStreetMap](https://www.openstreetmap.org/) pour le géocodage
 - [Material Icons](https://fonts.google.com/icons) pour les icônes
-
----
-
-<div align="center">
-  <p>Fait avec ❤️ et JavaScript</p>
-  <p>✨ N'oubliez pas de mettre une étoile si vous aimez ce projet !</p>
-</div>
