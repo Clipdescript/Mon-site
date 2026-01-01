@@ -3,6 +3,27 @@
    ============================================ */
 
 /* ============================================
+   STYLES FOOTER - Tous les écrans
+   ============================================ */
+.legal-bar {
+  margin-top: 40px;
+  padding: 24px 12px;
+}
+
+.legal-links {
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.legal-link {
+  font-size: 0.9rem;
+}
+
+.separator {
+  display: none;
+}
+
+/* ============================================
    ULTRA PETITS ÉCRANS (< 320px)
    ============================================ */
 @media screen and (max-width: 319px) {
@@ -746,6 +767,23 @@
    PETIT DESKTOP (769px - 1024px)
    ============================================ */
 @media screen and (min-width: 769px) and (max-width: 1024px) {
+  .legal-bar {
+    margin-top: 50px;
+    padding: 30px 24px;
+  }
+
+  .legal-links {
+    gap: 24px;
+  }
+
+  .legal-link {
+    font-size: 0.95rem;
+  }
+
+  .separator {
+    display: inline;
+  }
+
   body {
     padding: 20px;
   }
@@ -877,6 +915,23 @@
    DESKTOP LARGE (> 1024px)
    ============================================ */
 @media screen and (min-width: 1025px) {
+  .legal-bar {
+    margin-top: 60px;
+    padding: 36px 32px;
+  }
+
+  .legal-links {
+    gap: 28px;
+  }
+
+  .legal-link {
+    font-size: 1rem;
+  }
+
+  .separator {
+    display: inline;
+  }
+
   body {
     padding: 24px;
   }
