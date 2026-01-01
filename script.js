@@ -373,6 +373,16 @@ async function fetchWeather() {
   }
 }
 
+function handleMaterialIconsFallback() {
+  const link = document.createElement('link');
+  link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+  link.rel = 'stylesheet';
+  link.onerror = () => {
+    console.warn('Material Icons and Font Awesome failed to load. Using system fonts.');
+  };
+  document.head.appendChild(link);
+}
+
 // Gestion du volume (haut-parleur)
 function initVolumeToggle() {
   const volumeToggle = document.querySelector('.settings-icon');
