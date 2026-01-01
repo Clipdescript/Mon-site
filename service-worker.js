@@ -3,6 +3,7 @@ const urlsToCache = [
   '/Mon-site/',
   '/Mon-site/index.html',
   '/Mon-site/mentions-legales.html',
+  '/Mon-site/comment-ca-marche.html',
   '/Mon-site/style.css',
   '/Mon-site/portable.css',
   '/Mon-site/script.js',
