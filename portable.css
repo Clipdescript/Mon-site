@@ -3,39 +3,50 @@
    ============================================ */
 
 /* ============================================
-   STYLES NAVBAR - Tous les écrans
+   STYLES NAVBAR - Responsive Tous Écrans
    ============================================ */
 .navbar {
-  padding: 8px 12px;
-  gap: 12px;
+  padding: 10px 12px;
+  gap: 10px;
 }
 
 .navbar-left,
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+}
+
+.navbar-center {
+  flex: 1;
+}
+
+.navbar-title {
+  font-size: 1rem;
+  text-align: center;
 }
 
 .logo-container {
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
 }
 
 .top-logo {
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
 }
 
 .theme-toggle,
 .date-picker-toggle,
 .settings-icon {
-  width: 36px;
-  height: 36px;
+  width: 35px;
+  height: 35px;
+  min-width: 35px;
+  min-height: 35px;
 }
 
 .material-icons {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 /* ============================================
@@ -63,6 +74,42 @@
    ULTRA PETITS ÉCRANS (< 320px)
    ============================================ */
 @media screen and (max-width: 319px) {
+  .navbar {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .navbar-center {
+    display: none;
+  }
+
+  .navbar-title {
+    font-size: 0.85rem;
+  }
+
+  .logo-container {
+    width: 40px;
+    height: 40px;
+  }
+
+  .top-logo {
+    width: 35px;
+    height: 35px;
+  }
+
+  .theme-toggle,
+  .date-picker-toggle,
+  .settings-icon {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+  }
+
+  .material-icons {
+    font-size: 14px;
+  }
+
   body {
     padding: 8px;
   }
@@ -184,6 +231,42 @@
    PETITS ÉCRANS (320px - 375px)
    ============================================ */
 @media screen and (min-width: 320px) and (max-width: 375px) {
+  .navbar {
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .navbar-center {
+    display: block;
+  }
+
+  .navbar-title {
+    font-size: 0.95rem;
+  }
+
+  .logo-container {
+    width: 42px;
+    height: 42px;
+  }
+
+  .top-logo {
+    width: 37px;
+    height: 37px;
+  }
+
+  .theme-toggle,
+  .date-picker-toggle,
+  .settings-icon {
+    width: 33px;
+    height: 33px;
+    min-width: 33px;
+    min-height: 33px;
+  }
+
+  .material-icons {
+    font-size: 15px;
+  }
+
   body {
     padding: 10px;
   }
@@ -279,6 +362,38 @@
    TÉLÉPHONES (376px - 480px)
    ============================================ */
 @media screen and (min-width: 376px) and (max-width: 480px) {
+  .navbar {
+    padding: 10px 14px;
+    gap: 10px;
+  }
+
+  .navbar-title {
+    font-size: 1rem;
+  }
+
+  .logo-container {
+    width: 46px;
+    height: 46px;
+  }
+
+  .top-logo {
+    width: 41px;
+    height: 41px;
+  }
+
+  .theme-toggle,
+  .date-picker-toggle,
+  .settings-icon {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+
+  .material-icons {
+    font-size: 16px;
+  }
+
   body {
     padding: 12px;
   }
@@ -381,6 +496,38 @@
    PETITES TABLETTES (481px - 600px)
    ============================================ */
 @media screen and (min-width: 481px) and (max-width: 600px) {
+  .navbar {
+    padding: 12px 16px;
+    gap: 12px;
+  }
+
+  .navbar-title {
+    font-size: 1.1rem;
+  }
+
+  .logo-container {
+    width: 50px;
+    height: 50px;
+  }
+
+  .top-logo {
+    width: 45px;
+    height: 45px;
+  }
+
+  .theme-toggle,
+  .date-picker-toggle,
+  .settings-icon {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    min-height: 38px;
+  }
+
+  .material-icons {
+    font-size: 18px;
+  }
+
   body {
     padding: 14px;
   }
@@ -472,6 +619,38 @@
    TABLETTES STANDARD (601px - 768px)
    ============================================ */
 @media screen and (min-width: 601px) and (max-width: 768px) {
+  .navbar {
+    padding: 14px 18px;
+    gap: 14px;
+  }
+
+  .navbar-title {
+    font-size: 1.2rem;
+  }
+
+  .logo-container {
+    width: 54px;
+    height: 54px;
+  }
+
+  .top-logo {
+    width: 49px;
+    height: 49px;
+  }
+
+  .theme-toggle,
+  .date-picker-toggle,
+  .settings-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  .material-icons {
+    font-size: 20px;
+  }
+
   body {
     padding: 16px;
   }
@@ -578,6 +757,38 @@
    PETIT BUREAU (769px - 1024px)
    ============================================ */
 @media screen and (min-width: 769px) and (max-width: 1024px) {
+  .navbar {
+    padding: 16px 20px;
+    gap: 16px;
+  }
+
+  .navbar-title {
+    font-size: 1.3rem;
+  }
+
+  .logo-container {
+    width: 58px;
+    height: 58px;
+  }
+
+  .top-logo {
+    width: 53px;
+    height: 53px;
+  }
+
+  .theme-toggle,
+  .date-picker-toggle,
+  .settings-icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    min-height: 42px;
+  }
+
+  .material-icons {
+    font-size: 22px;
+  }
+
   body {
     padding: 18px;
   }
@@ -684,6 +895,38 @@
    GRAND BUREAU (1025px et plus)
    ============================================ */
 @media screen and (min-width: 1025px) {
+  .navbar {
+    padding: 18px 24px;
+    gap: 18px;
+  }
+
+  .navbar-title {
+    font-size: 1.4rem;
+  }
+
+  .logo-container {
+    width: 60px;
+    height: 60px;
+  }
+
+  .top-logo {
+    width: 55px;
+    height: 55px;
+  }
+
+  .theme-toggle,
+  .date-picker-toggle,
+  .settings-icon {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .material-icons {
+    font-size: 24px;
+  }
+
   body {
     padding: 20px;
   }
@@ -794,6 +1037,38 @@
    TRÈS GRANDS ÉCRANS (1441px et plus)
    ============================================ */
 @media screen and (min-width: 1441px) {
+  .navbar {
+    padding: 20px 28px;
+    gap: 20px;
+  }
+
+  .navbar-title {
+    font-size: 1.5rem;
+  }
+
+  .logo-container {
+    width: 65px;
+    height: 65px;
+  }
+
+  .top-logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  .theme-toggle,
+  .date-picker-toggle,
+  .settings-icon {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    min-height: 46px;
+  }
+
+  .material-icons {
+    font-size: 26px;
+  }
+
   body {
     padding: 24px;
   }

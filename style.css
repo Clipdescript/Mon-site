@@ -1,3 +1,104 @@
+/* ============================================
+   BARRE DE NAVIGATION STICKY
+   ============================================ */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border-color);
+  padding: 12px 16px;
+  gap: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.navbar-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar-title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.5px;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.logo-container {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.logo-container:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.top-logo {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.theme-toggle,
+.date-picker-toggle,
+.settings-icon {
+  background-color: var(--settings-bg);
+  border: none;
+  cursor: pointer;
+  color: var(--text);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.theme-toggle:hover,
+.date-picker-toggle:hover,
+.settings-icon:hover {
+  background-color: var(--settings-bg-hover);
+  transform: scale(1.05);
+}
+
+.theme-toggle:active,
+.date-picker-toggle:active,
+.settings-icon:active {
+  transform: scale(0.95);
+}
+
 /* Styles pour la page des mentions légales et "comment ça marche" */
 .legal-content,
 .how-it-works {

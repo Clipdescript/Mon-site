@@ -139,18 +139,27 @@
     </script>
   </head>
   <body>
-    <div class="theme-toggle" title="Changer de thème">
-      <span class="material-icons">dark_mode</span>
-    </div>
-    <div class="date-picker-toggle" title="Choisir le jour">
-      <span class="material-icons">calendar_today</span>
-    </div>
-    <div class="settings-icon" title="Activer/Désactiver le son">
-      <span class="material-icons">music_note</span>
-    </div>
-    <div class="logo-container">
-      <img src="Logo.png" alt="Logo" class="top-logo">
-    </div>
+    <header class="navbar">
+      <div class="navbar-left">
+        <div class="logo-container">
+          <img src="Logo.png" alt="Logo" class="top-logo">
+        </div>
+      </div>
+      <div class="navbar-center">
+        <h1 class="navbar-title">Quel jour sommes nous</h1>
+      </div>
+      <div class="navbar-right">
+        <button class="theme-toggle" title="Changer de thème">
+          <span class="material-icons">dark_mode</span>
+        </button>
+        <button class="date-picker-toggle" title="Choisir le jour">
+          <span class="material-icons">calendar_today</span>
+        </button>
+        <button class="settings-icon" title="Activer/Désactiver le son">
+          <span class="material-icons">music_note</span>
+        </button>
+      </div>
+    </header>
     
     <!-- Modal de sélection de date -->
     <div id="date-picker-modal" class="date-picker-modal" style="display: none;">
