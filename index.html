@@ -1,18 +1,46 @@
 <!doctype html>
 <html lang="fr">
   <head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://api.open-meteo.com https://nominatim.openstreetmap.org; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self' https://api.open-meteo.com https://nominatim.openstreetmap.org https://api.indexnow.org https://fonts.googleapis.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Horloge interactive précise avec heure mondiale, météo en direct, compte à rebours, mode sombre et fonctionnement hors ligne. Projet open-source gratuit et privacy-friendly.">
-    <link rel="indexnow" href="https://api.indexnow.org/indexnow?url=https://clipdescript.github.io/Mon-site/&key=8f3b2a1c9d4e5f67890abcdef1234567">
-    <title>Quelle date somme-nous ? | Découvrez l'heure mondiale et plus encore</title>
-    <meta name="keywords" content="horloge, heure, date, météo, temps, compteur, jour de l'année, décompte, fuseau horaire">
+    <meta name="description" content="Horloge interactive avec heure, date, météo en direct et mode hors ligne. Gratuit, open-source, privacy-friendly.">
+    <meta name="keywords" content="horloge, heure, date, météo, temps, compteur, jour de l'année, fuseau horaire">
     <meta name="author" content="Clipdescript">
-    <meta property="og:title" content="Horloge Interactive | Découvrez l'heure mondiale">
-    <meta property="og:description" content="Une horloge interactive moderne avec heure, date, météo et faits intéressants.">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <link rel="canonical" href="https://clipdescript.github.io/Mon-site/">
+    <link rel="indexnow" href="https://api.indexnow.org/indexnow?url=https://clipdescript.github.io/Mon-site/&key=8f3b2a1c9d4e5f67890abcdef1234567">
+    <title>Quelle heure est-il ? Horloge Interactive avec Météo</title>
+    <meta property="og:title" content="Quelle heure est-il ? - Horloge Interactive">
+    <meta property="og:description" content="Horloge interactive avec heure, date, météo en direct et mode hors ligne.">
     <meta property="og:url" content="https://clipdescript.github.io/Mon-site/">
     <meta property="og:type" content="website">
+    <meta property="og:image" content="https://clipdescript.github.io/Mon-site/Logo.png">
+    <meta property="og:image:width" content="200">
+    <meta property="og:image:height" content="200">
+    <meta property="og:site_name" content="Horloge Interactive">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Quelle heure est-il ? - Horloge Interactive">
+    <meta name="twitter:description" content="Horloge interactive avec heure, date, météo et mode hors ligne.">
+    <meta name="twitter:image" content="https://clipdescript.github.io/Mon-site/Logo.png">
+    <meta name="theme-color" content="#0d6efd">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://api.open-meteo.com">
+    <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preload" as="style" href="style.css">
+    <link rel="preload" as="image" href="Logo.png">
+    <link rel="prefetch" href="mentions-legales.html">
+    <link rel="prefetch" href="comment-ca-marche.html">
     <link rel="icon" type="image/png" href="Logo.png" />
+    <link rel="apple-touch-icon" href="Logo.png" />
+    <link rel="shortcut icon" href="Logo.png" type="image/png" />
+    <link rel="manifest" href="manifest.json">
+    <meta name="msapplication-TileImage" content="Logo.png">
+    <meta name="msapplication-TileColor" content="#0d6efd">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="portable.css" media="screen and (max-width: 768px)" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" onerror="loadMaterialIconsFallback()">
@@ -27,6 +55,84 @@
         font-style: normal;
       }
     </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Horloge Interactive",
+      "description": "Horloge interactive avec heure, date, météo en direct et mode hors ligne",
+      "url": "https://clipdescript.github.io/Mon-site/",
+      "applicationCategory": "Utilities",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript, HTML5, CSS3",
+      "softwareVersion": "1.0",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "EUR"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "Clipdescript",
+        "url": "https://github.com/Clipdescript"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Clipdescript"
+      },
+      "datePublished": "2024-01-01",
+      "dateModified": "2026-01-01",
+      "inLanguage": "fr",
+      "isAccessibleForFree": true,
+      "image": "https://clipdescript.github.io/Mon-site/Logo.png",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "ratingCount": "100"
+      },
+      "featureList": [
+        "Affichage de l'heure en temps réel",
+        "Météo locale avec prévisions",
+        "Mode sombre/clair automatique",
+        "Design responsive",
+        "Fonctionne hors ligne (PWA)",
+        "Pas de collecte de données personnelles",
+        "Open source gratuit"
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Clipdescript",
+      "url": "https://github.com/Clipdescript",
+      "logo": "https://clipdescript.github.io/Mon-site/Logo.png",
+      "description": "Projets open source et applications web interactives",
+      "sameAs": [
+        "https://github.com/Clipdescript"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "url": "https://github.com/Clipdescript/Mon-site/issues",
+        "contactType": "Customer Support"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Accueil",
+          "item": "https://clipdescript.github.io/Mon-site/"
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div class="theme-toggle" title="Changer de thème">

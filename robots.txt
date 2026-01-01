@@ -1,3 +1,26 @@
 User-agent: *
 Allow: /
+Disallow: /.well-known/
+Disallow: /service-worker.js
+
 Sitemap: https://clipdescript.github.io/Mon-site/sitemap.xml
+
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10

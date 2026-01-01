@@ -1,0 +1,7 @@
+Contact: https://github.com/Clipdescript/Mon-site/issues
+Contact: mailto:security@github.com
+Expires: 2026-12-31T23:59:59.000Z
+Preferred-Languages: fr, en
+Canonical: https://clipdescript.github.io/Mon-site/.well-known/security.txt
+Policy: https://github.com/Clipdescript/Mon-site
+Acknowledgments: https://github.com/Clipdescript/Mon-site/issues

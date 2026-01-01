@@ -1,0 +1,59 @@
+{
+  "name": "Horloge Interactive - Heure, Date, Météo",
+  "short_name": "Horloge Interactive",
+  "description": "Horloge interactive avec heure, date, météo en direct et mode hors ligne. Gratuit, open-source, privacy-friendly.",
+  "start_url": "https://clipdescript.github.io/Mon-site/",
+  "scope": "https://clipdescript.github.io/Mon-site/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#0d6efd",
+  "background_color": "#ffffff",
+  "categories": ["utilities", "productivity"],
+  "screenshots": [
+    {
+      "src": "Logo.png",
+      "sizes": "200x200",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "icons": [
+    {
+      "src": "Logo.png",
+      "sizes": "200x200",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "Logo.png",
+      "sizes": "200x200",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Ouvrir l'horloge",
+      "short_name": "Horloge",
+      "description": "Ouvrir l'application Horloge Interactive",
+      "url": "https://clipdescript.github.io/Mon-site/",
+      "icons": [
+        {
+          "src": "Logo.png",
+          "sizes": "200x200"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "https://clipdescript.github.io/Mon-site/",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "prefer_related_applications": false
+}
