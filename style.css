@@ -465,8 +465,13 @@ h1 {
 }
 
 /* Style commun pour les titres de section */
+h1.section-title {
+  font-size: 1.2rem;
+  margin: 15px 0 8px 0;
+}
+
 .section-title {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 500;
   color: var(--accent);
   margin: 15px 0 8px 0;
@@ -478,7 +483,7 @@ h1 {
 
 /* Rétrocompatibilité avec les sélecteurs existants */
 .info-section h2 {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 500;
   color: var(--accent);
   margin: 25px 0 15px 0;
