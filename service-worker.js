@@ -1,19 +1,8 @@
-const CACHE_NAME = 'mon-site-cache-v7';  // Version incrémentée pour forcer la mise à jour
+const CACHE_NAME = 'mon-site-cache-v8';  // Version incrémentée pour forcer la mise à jour
+
+// Fichiers à mettre en cache
 const urlsToCache = [
-  '/Mon-site/',
-  '/Mon-site/index.html',
-  '/Mon-site/mentions-legales.html',
-  '/Mon-site/comment-ca-marche.html',
-  '/Mon-site/style.css',
-  '/Mon-site/portable.css',
-  '/Mon-site/script.js',
-  '/Mon-site/offline.js',
-  '/Mon-site/Logo.png',
-  '/Mon-site/nouvel-an.jpg',
-  '/Mon-site/OpenSource.webp',
-  '/Mon-site/404.html',
-  '/Mon-site/robots.txt',
-  '/Mon-site/sitemap.xml',
+  '/',
   'index.html',
   'mentions-legales.html',
   'comment-ca-marche.html',
@@ -24,13 +13,12 @@ const urlsToCache = [
   'Logo.png',
   'nouvel-an.jpg',
   'OpenSource.webp',
-  '404.html',
-  'robots.txt',
-  'sitemap.xml'
+  '404.html'
 ];
 
 // Installation du Service Worker
 self.addEventListener('install', event => {
+  // Force l'activation immédiate du nouveau service worker
   self.skipWaiting();
   
   event.waitUntil(
@@ -38,20 +26,12 @@ self.addEventListener('install', event => {
       .then(cache => {
         console.log('Mise en cache des fichiers statiques');
         // Ajouter chaque fichier un par un pour éviter les erreurs
-        return Promise.all(
-          urlsToCache.map(url => {
-            return fetch(url, { cache: 'no-store' })
-              .then(response => {
-                if (response.ok) {
-                  return cache.put(url, response);
-                }
-                console.warn(`Impossible de mettre en cache ${url}: ${response.status}`);
-              })
-              .catch(error => {
-                console.warn(`Erreur lors de la mise en cache de ${url}:`, error);
-              });
-          })
-        );
+        return cache.addAll(urlsToCache)
+          .then(() => console.log('Toutes les ressources ont été mises en cache'))
+          .catch(error => {
+            console.error('Erreur lors de la mise en cache des ressources:', error);
+            throw error; // Propage l'erreur pour échouer l'installation si nécessaire
+          });
       })
   );
 });
@@ -74,54 +54,33 @@ self.addEventListener('fetch', event => {
   const requestUrl = new URL(event.request.url);
   const path = requestUrl.pathname;
   
-  // Ne pas mettre en cache les requêtes vers les APIs
-  if (event.request.url.includes('api.') || 
+  // Ne pas mettre en cache les requêtes vers les APIs et les requêtes non-GET
+  if (event.request.method !== 'GET' || 
+      event.request.url.includes('api.') || 
       event.request.url.includes('open-meteo.com') || 
       event.request.url.includes('nominatim.openstreetmap.org')) {
     return;
   }
 
-  // Pour les requêtes de navigation
+  // Pour les requêtes de navigation (pages HTML)
   if (event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request)
         .then(response => {
           // Mettre en cache la réponse pour une utilisation hors ligne
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME)
-            .then(cache => cache.put(event.request, responseToCache));
+          if (response.status === 200) {
+            const responseToCache = response.clone();
+            caches.open(CACHE_NAME)
+              .then(cache => cache.put(event.request, responseToCache));
+          }
           return response;
         })
         .catch(() => {
-          // Essayer de récupérer depuis le cache
+          // En cas d'erreur, essayer de servir depuis le cache
           return caches.match(event.request)
             .then(cachedResponse => {
-              if (cachedResponse) return cachedResponse;
-              
-              // Essayer de trouver la page demandée avec différents chemins
-              const url = new URL(event.request.url);
-              const requestPath = url.pathname.split('/').pop() || 'index.html';
-              
-              // Essayer plusieurs chemins possibles
-              const possiblePaths = [
-                requestPath,
-                `/${requestPath}`,
-                `/Mon-site/${requestPath}`,
-                'index.html',
-                '/index.html',
-                '/Mon-site/index.html'
-              ];
-              
-              // Essayer chaque chemin jusqu'à trouver une correspondance
-              return Promise.any(
-                possiblePaths.map(path => 
-                  caches.match(path)
-                    .then(response => {
-                      if (response) return response;
-                      return Promise.reject('Not found');
-                    })
-                )
-              ).catch(() => caches.match('index.html'));
+              // Si la page n'est pas en cache, servir index.html
+              return cachedResponse || caches.match('index.html');
             });
         })
     );
@@ -131,55 +90,38 @@ self.addEventListener('fetch', event => {
   // Pour les autres requêtes (CSS, JS, images, etc.)
   event.respondWith(
     caches.match(event.request, { ignoreSearch: true })
-      .then(response => {
+      .then(cachedResponse => {
         // Si la ressource est en cache, la retourner
-        if (response) {
-          return response;
+        if (cachedResponse) {
+          return cachedResponse;
         }
         
         // Sinon, essayer de la récupérer depuis le réseau
         return fetch(event.request)
-          .then(networkResponse => {
+          .then(response => {
+            // Vérifier si la réponse est valide
+            if (!response || response.status !== 200 || response.type !== 'basic') {
+              return response;
+            }
+            
             // Mettre en cache la réponse pour les requêtes réussies
-            if (networkResponse && networkResponse.status === 200) {
-              const responseToCache = networkResponse.clone();
-              caches.open(CACHE_NAME)
-                .then(cache => {
-                  cache.put(event.request, responseToCache);
-                });
-            }
-            return networkResponse;
-          })
-          .catch(async () => {
-            // Si la requête échoue, essayer de trouver une ressource similaire
-            const url = new URL(event.request.url);
-            const requestPath = url.pathname.split('/').pop();
-            
-            // Si c'est une requête pour Material Icons, utiliser le fallback d'offline.js
-            if (url.href.includes('material-icons')) {
-              return new Response('', { status: 404 }); // offline.js gérera le remplacement
-            }
-            
-            // Pour les images, essayer de trouver une image de remplacement
-            if (event.request.destination === 'image') {
-              const fallbackImages = [
-                'Logo.png',
-                'OpenSource.webp',
-                'nouvel-an.jpg'
-              ];
+            const responseToCache = response.clone();
+            caches.open(CACHE_NAME)
+              .then(cache => cache.put(event.request, responseToCache));
               
-              // Essayer chaque image de remplacement
-              for (const img of fallbackImages) {
-                const cachedResponse = await caches.match(img);
-                if (cachedResponse) return cachedResponse;
-              }
+            return response;
+          })
+          .catch(error => {
+            console.error('Erreur de récupération:', error);
+            
+            // Si c'est une image, retourner une image par défaut
+            if (event.request.destination === 'image') {
+              return caches.match('Logo.png') || new Response('', { status: 404 });
             }
             
-            // Pour les fichiers CSS et JS, essayer de les charger depuis le même répertoire
-            if (event.request.destination === 'style' || 
-                event.request.destination === 'script') {
-              const cachedResponse = await caches.match(requestPath);
-              if (cachedResponse) return cachedResponse;
+            // Pour les CSS et JS, retourner une réponse vide
+            if (['style', 'script'].includes(event.request.destination)) {
+              return new Response('', { status: 404 });
             }
             
             // Pour les autres types de requêtes, renvoyer une réponse d'erreur
