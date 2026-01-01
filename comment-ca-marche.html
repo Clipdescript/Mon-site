@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Découvrez comment utiliser Date d'aujourd'hui - Toutes les fonctionnalités expliquées en détail.">
+    <title>Comment ça marche ? | Quelle date sommes-nous ?</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="Logo.png" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .how-it-works {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .feature {
+            background: var(--card);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .feature h3 {
+            color: var(--primary);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-toggle" title="Changer de thème">
+        <span class="material-icons">dark_mode</span>
+    </div>
+    <div class="settings-icon" title="Retour à l'accueil">
+        <span class="material-icons">home</span>
+    </div>
+    <div class="logo-container">
+        <img src="Logo.png" alt="Logo" class="top-logo">
+    </div>
+    
+    <main class="how-it-works">
+        <h1>Comment ça marche ?</h1>
+        
+        <div class="feature">
+            <h3><span class="material-icons">schedule</span>Heure en temps réel</h3>
+            <p>L'heure s'affiche en temps réel et se met à jour chaque seconde. Elle est synchronisée avec l'horloge de votre appareil pour une précision optimale.</p>
+        </div>
+
+        <div class="feature">
+            <h3><span class="material-icons">calendar_today</span>Date actuelle</h3>
+            <p>La date s'affiche au format complet et se met à jour automatiquement à minuit. Vous pouvez également sélectionner une date spécifique en cliquant sur l'icône de calendrier en haut à droite.</p>
+        </div>
+
+        <div class="feature">
+            <h3><span class="material-icons">wb_sunny</span>Météo actuelle</h3>
+            <p>La météo s'affiche automatiquement en fonction de votre localisation. Les données proviennent d'Open-Meteo et sont mises à jour régulièrement.</p>
+        </div>
+
+        <div class="feature">
+            <h3><span class="material-icons">dark_mode</span>Mode sombre/clair</h3>
+            <p>Cliquez sur l'icône de thème en haut à gauche pour basculer entre le mode clair et sombre. Votre préférence est enregistrée pour votre prochaine visite.</p>
+        </div>
+
+        <div class="feature">
+            <h3><span class="material-icons">volume_up</span>Son et notifications</h3>
+            <p>Activez ou désactivez les sons en cliquant sur l'icône de haut-parleur. Vous pouvez également activer les notifications pour les mises à jour importantes.</p>
+        </div>
+
+        <div class="feature">
+            <h3><span class="material-icons">devices</span>Design réactif</h3>
+            <p>Le site s'adapte automatiquement à la taille de votre écran, que vous utilisiez un ordinateur, une tablette ou un smartphone.</p>
+        </div>
+
+        <div class="feature">
+            <h3><span class="material-icons">offline_bolt</span>Hors ligne</h3>
+            <p>Une fois chargé, le site fonctionne même sans connexion Internet. Parfait pour vérifier l'heure et la date à tout moment.</p>
+        </div>
+    </main>
+
+    <!-- Barre d'informations légales -->
+    <footer class="legal-bar">
+        <div class="legal-links">
+            <a href="index.html" class="legal-link">Revenir à l'accueil</a>
+            <span class="separator">|</span>
+            <a href="mentions-legales.html" class="legal-link">Mentions Légales</a>
+            <span class="separator">|</span>
+            <a href="#" class="legal-link">Assistance</a>
+            <span class="separator">|</span>
+            <a href="#" class="legal-link">Contact</a>
+        </div>
+        <div class="copyright">
+            2025 - Projet Open Source utilisant des API publiques
+        </div>
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
