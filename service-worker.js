@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mon-site-cache-v4';
+const CACHE_NAME = 'mon-site-cache-v5';  // Version incrémentée pour forcer la mise à jour
 const urlsToCache = [
   '/Mon-site/',
   '/Mon-site/index.html',
@@ -66,41 +66,31 @@ self.addEventListener('fetch', event => {
 
   // Pour les requêtes de navigation
   if (event.request.mode === 'navigate') {
-    // Pour la page des mentions légales
-    if (path.endsWith('mentions-legales.html')) {
-      event.respondWith(
-        fetch(event.request)
-          .then(response => {
-            // Mettre en cache la réponse pour une utilisation hors ligne
-            const responseToCache = response.clone();
-            caches.open(CACHE_NAME)
-              .then(cache => cache.put(event.request, responseToCache));
-            return response;
-          })
-          .catch(() => {
-            // Essayer de récupérer depuis le cache
-            return caches.match('mentions-legales.html')
-              .then(cachedResponse => {
-                if (cachedResponse) return cachedResponse;
-                // Si la page n'est pas dans le cache, rediriger vers index.html
-                return caches.match('index.html');
-              });
-          })
-      );
-    } else {
-      // Pour les autres pages
-      event.respondWith(
-        fetch(event.request)
-          .then(response => {
-            // Mettre en cache la réponse pour une utilisation ultérieure
-            const responseToCache = response.clone();
-            caches.open(CACHE_NAME)
-              .then(cache => cache.put(event.request, responseToCache));
-            return response;
-          })
-          .catch(() => caches.match('index.html'))
-      );
-    }
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          // Mettre en cache la réponse pour une utilisation hors ligne
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME)
+            .then(cache => cache.put(event.request, responseToCache));
+          return response;
+        })
+        .catch(() => {
+          // Essayer de récupérer depuis le cache
+          return caches.match(event.request)
+            .then(cachedResponse => {
+              if (cachedResponse) return cachedResponse;
+              // Si la page n'est pas dans le cache, essayer de charger la page spécifique
+              if (path.endsWith('mentions-legales.html')) {
+                return caches.match('mentions-legales.html');
+              } else if (path.endsWith('comment-ca-marche.html')) {
+                return caches.match('comment-ca-marche.html');
+              }
+              // Sinon, charger index.html
+              return caches.match('index.html');
+            });
+        })
+    );
     return;
   }
 
