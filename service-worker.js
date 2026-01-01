@@ -68,7 +68,7 @@ self.addEventListener('fetch', event => {
     fetch(request)
       .then(response => {
         // Mettre en cache la réponse si elle est valide
-        if (response.status === 200) {
+        if (response && response.status === 200) {
           const responseToCache = response.clone();
           caches.open(CACHE_NAME)
             .then(cache => cache.put(request, responseToCache));
@@ -79,11 +79,18 @@ self.addEventListener('fetch', event => {
         // En cas d'échec, chercher dans le cache
         return caches.match(request)
           .then(cachedResponse => {
-            // Si c'est une navigation et que la page n'est pas en cache, retourner index.html
-            if (request.mode === 'navigate' && !cachedResponse) {
-              return caches.match('/Mon-site/index.html');
+            if (cachedResponse) {
+              return cachedResponse;
             }
-            return cachedResponse;
+            // Si c'est une navigation et que la page n'est pas en cache, retourner index.html
+            if (request.mode === 'navigate') {
+              return caches.match('./index.html');
+            }
+            // Retourner une réponse d'erreur au lieu de undefined
+            return new Response('Ressource non disponible', {
+              status: 503,
+              statusText: 'Service Unavailable'
+            });
           });
       })
   );
