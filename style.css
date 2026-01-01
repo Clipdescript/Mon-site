@@ -130,141 +130,7 @@
   display: none; /* Sera affichée par le JavaScript */
 }
 
-/* Icône de paramètres */
-/* Bouton de thème */
-.theme-toggle {
-  position: fixed;
-  top: 15px;
-  left: 15px;
-  cursor: pointer;
-  z-index: 1000;
-  background-color: var(--settings-bg);
-  width: 200px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  border-radius: 2px;
-  padding-left: 12px;
-  transition: all 0.3s ease;
-  overflow: hidden;
-}
 
-.theme-toggle::after {
-  content: attr(title);
-  position: absolute;
-  left: 48px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--text);
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.theme-toggle:hover {
-  background-color: var(--settings-bg-hover);
-}
-
-/* Bouton de sélection de date */
-.date-picker-toggle {
-  position: fixed;
-  top: 15px;
-  left: 225px;
-  cursor: pointer;
-  z-index: 1000;
-  background-color: var(--settings-bg);
-  width: 180px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  border-radius: 2px;
-  padding-left: 12px;
-  transition: all 0.3s ease;
-  overflow: hidden;
-}
-
-.date-picker-toggle::after {
-  content: attr(title);
-  position: absolute;
-  left: 48px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--text);
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.date-picker-toggle:hover {
-  background-color: var(--settings-bg-hover);
-}
-
-/* Bouton des paramètres */
-.settings-icon {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  cursor: pointer;
-  z-index: 1000;
-  background-color: rgba(200, 200, 200, 0.3);
-  width: 220px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  border-radius: 2px;
-  padding-right: 12px;
-  transition: all 0.3s ease;
-  overflow: hidden;
-}
-
-/* Logo en haut à droite */
-.logo-container {
-  position: fixed;
-  top: 60px;
-  left: 15px;
-  z-index: 1000;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  width: 100px;
-  height: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
-}
-
-.logo-container:hover {
-  transform: scale(1.1);
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.top-logo {
-  width: 90px;
-  height: 90px;
-  object-fit: contain;
-  border-radius: 50%;
-}
-
-.settings-icon::before {
-  content: attr(title);
-  position: absolute;
-  right: 48px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--text);
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.settings-icon:hover {
-  background-color: rgba(200, 200, 200, 0.5);
-}
 
 .material-icons {
   font-size: 24px;
@@ -835,4 +701,372 @@ h1.section-title {
 
 .date-picker-action-btn .material-icons {
   font-size: 28px;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN - Desktop vers Mobile
+   ============================================ */
+
+/* Ultra petit écran (< 320px) */
+@media screen and (max-width: 319px) {
+  body {
+    padding: 8px;
+  }
+
+  .app {
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+    margin: 0 0 8px;
+    letter-spacing: 0;
+  }
+
+  .value {
+    font-size: 1.3rem;
+  }
+
+  .section-title {
+    font-size: 1rem;
+    margin: 12px 0 6px 0;
+  }
+
+  .info-section p,
+  .info-section li {
+    font-size: 0.9rem;
+  }
+
+  .legal-content,
+  .how-it-works {
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+
+  .legal-content h1,
+  .how-it-works h1 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+}
+
+/* Petit écran (320px - 375px) */
+@media screen and (min-width: 320px) and (max-width: 375px) {
+  body {
+    padding: 10px;
+  }
+
+  .app {
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    margin: 0 0 10px;
+  }
+
+  .value {
+    font-size: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.05rem;
+    margin: 12px 0 6px 0;
+  }
+
+  .info-section p,
+  .info-section li {
+    font-size: 0.95rem;
+  }
+
+  .legal-content,
+  .how-it-works {
+    padding: 15px;
+    font-size: 1rem;
+  }
+
+  .legal-content h1,
+  .how-it-works h1 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+
+  .legal-content h2,
+  .how-it-works h3 {
+    font-size: 1.3rem;
+  }
+}
+
+/* Téléphone (376px - 480px) */
+@media screen and (min-width: 376px) and (max-width: 480px) {
+  body {
+    padding: 12px;
+  }
+
+  .app {
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin: 0 0 12px;
+  }
+
+  .value {
+    font-size: 1.8rem;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+    margin: 14px 0 7px 0;
+  }
+
+  .info-section p,
+  .info-section li {
+    font-size: 1rem;
+  }
+
+  .legal-content,
+  .how-it-works {
+    padding: 18px;
+    font-size: 1.05rem;
+  }
+
+  .legal-content h1,
+  .how-it-works h1 {
+    font-size: 2rem;
+    margin-bottom: 25px;
+  }
+
+  .legal-content h2,
+  .how-it-works h3 {
+    font-size: 1.4rem;
+  }
+}
+
+/* Petite tablette (481px - 600px) */
+@media screen and (min-width: 481px) and (max-width: 600px) {
+  body {
+    padding: 14px;
+  }
+
+  .app {
+    width: min(500px, 95%);
+  }
+
+  h1 {
+    font-size: 2.1rem;
+    margin: 0 0 14px;
+  }
+
+  .value {
+    font-size: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.15rem;
+  }
+
+  .info-section p,
+  .info-section li {
+    font-size: 1.05rem;
+  }
+
+  .legal-content,
+  .how-it-works {
+    padding: 20px;
+    font-size: 1.1rem;
+  }
+
+  .legal-content h1,
+  .how-it-works h1 {
+    font-size: 2.1rem;
+    margin-bottom: 30px;
+  }
+
+  .legal-content h2,
+  .how-it-works h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Tablette standard (601px - 768px) */
+@media screen and (min-width: 601px) and (max-width: 768px) {
+  body {
+    padding: 16px;
+  }
+
+  .app {
+    width: min(580px, 95%);
+  }
+
+  h1 {
+    font-size: 2.3rem;
+    margin: 0 0 16px;
+  }
+
+  .value {
+    font-size: 2.1rem;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+  }
+
+  .info-section p,
+  .info-section li {
+    font-size: 1.1rem;
+  }
+
+  .legal-content,
+  .how-it-works {
+    padding: 25px;
+    font-size: 1.15rem;
+  }
+
+  .legal-content h1,
+  .how-it-works h1 {
+    font-size: 2.3rem;
+    margin-bottom: 35px;
+  }
+
+  .legal-content h2,
+  .how-it-works h3 {
+    font-size: 1.6rem;
+  }
+}
+
+/* Petit bureau (769px - 1024px) */
+@media screen and (min-width: 769px) {
+  body {
+    padding: 18px;
+  }
+
+  .app {
+    width: min(650px, 95%);
+  }
+
+  h1 {
+    font-size: 2.4rem;
+  }
+
+  .value {
+    font-size: 2.2rem;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+  }
+
+  .info-section p,
+  .info-section li {
+    font-size: 1.15rem;
+  }
+
+  .legal-content,
+  .how-it-works {
+    padding: 30px;
+    font-size: 1.2rem;
+  }
+
+  .legal-content h1,
+  .how-it-works h1 {
+    font-size: 2.4rem;
+    margin-bottom: 40px;
+  }
+
+  .legal-content h2,
+  .how-it-works h3 {
+    font-size: 1.7rem;
+  }
+}
+
+/* Grand bureau (1025px - 1440px) */
+@media screen and (min-width: 1025px) and (max-width: 1440px) {
+  body {
+    padding: 20px;
+  }
+
+  .app {
+    width: min(700px, 100%);
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .value {
+    font-size: 2.3rem;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+  }
+
+  .info-section p,
+  .info-section li {
+    font-size: 1.2rem;
+  }
+
+  .legal-content,
+  .how-it-works {
+    padding: 35px;
+    font-size: 1.25rem;
+  }
+
+  .legal-content h1,
+  .how-it-works h1 {
+    font-size: 2.5rem;
+    margin-bottom: 45px;
+  }
+
+  .legal-content h2,
+  .how-it-works h3 {
+    font-size: 1.8rem;
+  }
+}
+
+/* Très grand écran (1441px+) */
+@media screen and (min-width: 1441px) {
+  body {
+    padding: 24px;
+  }
+
+  .app {
+    width: min(750px, 100%);
+  }
+
+  h1 {
+    font-size: 2.6rem;
+  }
+
+  .value {
+    font-size: 2.4rem;
+  }
+
+  .section-title {
+    font-size: 1.35rem;
+  }
+
+  .info-section p,
+  .info-section li {
+    font-size: 1.25rem;
+  }
+
+  .legal-content,
+  .how-it-works {
+    padding: 40px;
+    font-size: 1.3rem;
+  }
+
+  .legal-content h1,
+  .how-it-works h1 {
+    font-size: 2.6rem;
+    margin-bottom: 50px;
+  }
+
+  .legal-content h2,
+  .how-it-works h3 {
+    font-size: 1.9rem;
+  }
 }
