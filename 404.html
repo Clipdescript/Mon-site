@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' https: data:; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self' https://api.open-meteo.com https://nominatim.openstreetmap.org https://fonts.googleapis.com; base-uri 'self'; form-action 'self'">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Page non trouvée (erreur 404). Retournez à l'accueil de l'Horloge Interactive.">
@@ -18,16 +18,20 @@
   <link rel="shortcut icon" href="Logo.png" type="image/png" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="portable.css" media="screen and (max-width: 768px)" />
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" onerror="loadMaterialIconsFallback()">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" onerror="handleMaterialIconsFallback()">
   <style>
     .material-icons {
-      font-family: 'Material Icons' !important;
-    }
-    @font-face {
-      font-family: 'Material Icons';
-      src: url('data:application/font-woff;base64,AAEAAAAKAIAAAwAgRkZUTUDd/9EAAAC8AAAAHEdERUY0nQvxAAABWAAAACBHUE9TjhG65gAAAcgAAABQR1NVQwAUBRkAAAIcAAAAAE9TLzI+IEpYAAAB+AAAAFZNQXRF4unIkwAAArgAAABgY21hcABCAAAAAA==') format('woff');
+      font-family: 'Material Icons', sans-serif !important;
       font-weight: normal;
       font-style: normal;
+      font-size: 24px;
+      display: inline-block;
+      line-height: 1;
+      text-transform: none;
+      letter-spacing: normal;
+      word-wrap: normal;
+      white-space: nowrap;
+      direction: ltr;
     }
   </style>
 </head>
