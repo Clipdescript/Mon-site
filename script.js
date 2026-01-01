@@ -241,44 +241,66 @@ function requestPosition(resolve, reject) {
 // Fonction pour obtenir le nom de la ville via reverse geocoding
 async function getCityName(latitude, longitude) {
   try {
+    if (!latitude || !longitude) {
+      return 'votre position';
+    }
+    
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    
     const response = await fetch(
-      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10&addressdetails=1`
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10&addressdetails=1`,
+      { signal: controller.signal }
     );
+    
+    clearTimeout(timeoutId);
 
+    if (!response.ok) {
+      console.warn(`Nominatim API error: ${response.status}`);
+      return 'votre position';
+    }
+    
     const data = await response.json();
 
     if (data && data.address) {
-      // Essayer différents champs pour obtenir le nom de la ville
       const city = data.address.city ||
                    data.address.town ||
                    data.address.village ||
                    data.address.municipality ||
                    data.address.hamlet ||
-                   data.display_name.split(',')[0];
+                   data.display_name?.split(',')[0];
 
       return city || 'votre position';
     }
 
     return 'votre position';
   } catch (error) {
-    console.error('Erreur lors de la récupération du nom de ville, utilisation de Paris par défaut:', error);
-    return 'Paris';
+    console.warn('City name fetch failed:', error.message);
+    return 'votre position';
   }
 }
 
 // Fonction pour récupérer la météo
 async function fetchWeather() {
   try {
-    // Obtenir la position actuelle
     const position = await getCurrentPosition();
     const { latitude, longitude } = position;
 
-    // Obtenir le nom de la ville en parallèle avec la météo
     const cityNamePromise = getCityName(latitude, longitude);
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+
     const response = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code,wind_speed_10m&timezone=auto&forecast_days=1`
+      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code,wind_speed_10m&timezone=auto&forecast_days=1`,
+      { signal: controller.signal }
     );
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`Weather API error: ${response.status}`);
+    }
 
     const data = await response.json();
     const cityName = await cityNamePromise;
@@ -289,11 +311,9 @@ async function fetchWeather() {
       const weatherCode = current.weather_code;
       const windSpeed = Math.round(current.wind_speed_10m);
 
-      // Déterminer si c'est le jour ou la nuit
       const hours = new Date().getHours();
-      const isDay = hours > 6 && hours < 20; // Jour entre 6h et 20h
+      const isDay = hours > 6 && hours < 20;
 
-      // Déterminer la description météo en français
       const descriptions = {
         0: 'ciel dégagé',
         1: 'légèrement nuageux',
@@ -327,29 +347,28 @@ async function fetchWeather() {
 
       const description = descriptions[weatherCode] || 'conditions variables';
 
-      // Mettre à jour l'icône météo
       const weatherIcon = document.getElementById('weather-icon');
-      const iconFile = getWeatherIcon(weatherCode, isDay);
-      weatherIcon.innerHTML = `<img src="${iconFile}" alt="Météo" style="width: 80px; height: 80px; display: block;">`;
+      if (weatherIcon) {
+        const iconFile = getWeatherIcon(weatherCode, isDay);
+        weatherIcon.innerHTML = `<img src="${iconFile}" alt="Météo" style="width: 80px; height: 80px; display: block;">`;
+      }
 
-      // Mettre à jour la température
       const tempElement = document.getElementById('weather-temp');
       if (tempElement) {
         tempElement.textContent = `${Math.round(temp)}°C`;
       }
 
-      // Mise à jour du texte descriptif avec le nom de la ville
-      document.getElementById('weather-text').textContent =
-        `Il fait ${temp}°C à ${cityName} avec un ciel ${description}`;
+      const weatherText = document.getElementById('weather-text');
+      if (weatherText) {
+        weatherText.textContent = `Il fait ${temp}°C à ${cityName} avec un ciel ${description}`;
+      }
     }
   } catch (error) {
-    console.error('Erreur lors de la récupération de la météo:', error);
-
-    // Gestion spécifique des erreurs de géolocalisation
-    if (error.message.includes('géolocalisation') || error.message.includes('localisation')) {
-      document.getElementById('weather-text').textContent = `Erreur de localisation: ${error.message}`;
-    } else {
-      document.getElementById('weather-text').textContent = 'Données météo indisponibles';
+    console.warn('Weather fetch failed:', error.message);
+    
+    const weatherText = document.getElementById('weather-text');
+    if (weatherText) {
+      weatherText.textContent = 'Météo indisponible';
     }
   }
 }
@@ -357,32 +376,28 @@ async function fetchWeather() {
 // Gestion du volume (haut-parleur)
 function initVolumeToggle() {
   const volumeToggle = document.querySelector('.settings-icon');
-  const volumeIcon = volumeToggle.querySelector('.material-icons');
+  if (!volumeToggle) return;
 
-  // Vérifier l'état sauvegardé du volume ou utiliser désactivé par défaut
+  const volumeIcon = volumeToggle.querySelector('.material-icons');
+  if (!volumeIcon) return;
+
   const savedVolumeState = localStorage.getItem('volume-enabled');
   const isVolumeEnabled = savedVolumeState !== null ? savedVolumeState === 'true' : false;
 
-  // Appliquer l'état initial (désactivé par défaut)
   updateVolumeIcon(volumeIcon, isVolumeEnabled);
   
-  // Si le son est activé, l'arrêter au démarrage
   if (isVolumeEnabled && 'speechSynthesis' in window) {
     speechSynthesis.cancel();
   }
 
-  // Mettre à jour le titre du bouton en fonction de l'état initial
   volumeToggle.title = isVolumeEnabled ? 'Désactiver le haut-parleur' : 'Activer le haut-parleur';
 
-  // Gérer le toggle au clic
   volumeToggle.addEventListener('click', () => {
     const currentState = localStorage.getItem('volume-enabled') === 'true';
     const newState = !currentState;
     
-    // Mettre à jour le titre du bouton
     volumeToggle.title = newState ? 'Désactiver le haut-parleur' : 'Activer le haut-parleur';
 
-    // Animation de clic
     volumeIcon.style.transform = 'scale(0.8)';
     setTimeout(() => {
       volumeIcon.style.transform = '';
@@ -391,17 +406,15 @@ function initVolumeToggle() {
 
     localStorage.setItem('volume-enabled', newState.toString());
 
-    // Si on active le volume, lire le contenu de la page
     if (newState) {
       speakPageContent();
     } else {
-      // Si on désactive, arrêter la synthèse vocale
       if ('speechSynthesis' in window) {
         speechSynthesis.cancel();
       }
     }
 
-    console.log('Volume:', newState ? 'activé' : 'désactivé');
+    console.log('Volume:', newState ? 'enabled' : 'disabled');
   });
 }
 
@@ -760,10 +773,13 @@ function numberToWords(num) {
 // Gestion du thème
 function initTheme() {
   const themeToggle = document.querySelector('.theme-toggle');
+  if (!themeToggle) return;
+
   const themeIcon = themeToggle.querySelector('.material-icons');
+  if (!themeIcon) return;
+
   const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
-  // Vérifier le thème sauvegardé ou utiliser les préférences système
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'dark' || (!savedTheme && prefersDarkScheme.matches)) {
     document.documentElement.setAttribute('data-theme', 'dark');
@@ -773,7 +789,6 @@ function initTheme() {
     themeIcon.textContent = 'dark_mode';
   }
 
-  // Gérer le changement de thème au clic
   themeToggle.addEventListener('click', () => {
     const currentTheme = document.documentElement.getAttribute('data-theme');
     if (currentTheme === 'dark') {
@@ -785,10 +800,8 @@ function initTheme() {
       themeIcon.textContent = 'light_mode';
       localStorage.setItem('theme', 'dark');
     }
-    
   });
 
-  // Mettre à jour le thème si les préférences système changent (uniquement si aucun thème n'est sauvegardé)
   prefersDarkScheme.addEventListener('change', (e) => {
     if (!localStorage.getItem('theme')) {
       if (e.matches) {
@@ -805,26 +818,28 @@ function initTheme() {
 // Enregistrer le Service Worker pour le mode hors ligne
 function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./service-worker.js')
-        .then((registration) => {
-          console.log('[Service Worker] Enregistré avec succès:', registration.scope);
+    navigator.serviceWorker.register('./service-worker.js', { scope: './' })
+      .then((registration) => {
+        console.log('[Service Worker] Registered successfully');
+        
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
+          if (!newWorker) return;
           
-          // Vérifier les mises à jour du service worker
-          registration.addEventListener('updatefound', () => {
-            const newWorker = registration.installing;
-            newWorker.addEventListener('statechange', () => {
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                // Nouveau service worker disponible
-                console.log('[Service Worker] Nouvelle version disponible');
-              }
-            });
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              console.log('[Service Worker] New version available');
+            }
           });
-        })
-        .catch((error) => {
-          console.error('[Service Worker] Erreur lors de l\'enregistrement:', error);
         });
-    });
+        
+        registration.update().catch(err => {
+          console.warn('[Service Worker] Update check failed:', err.message);
+        });
+      })
+      .catch((error) => {
+        console.warn('[Service Worker] Registration error:', error.message);
+      });
   }
 }
 
@@ -858,6 +873,10 @@ function initDatePicker() {
   const datePickerClose = document.getElementById('date-picker-close');
   const datePickerNext = document.getElementById('date-picker-next');
   const datePickerBack = document.getElementById('date-picker-back');
+
+  if (!datePickerToggle || !datePickerModal || !datePickerClose || !datePickerNext || !datePickerBack) {
+    return;
+  }
 
   // Ouvrir la modal
   datePickerToggle.addEventListener('click', () => {

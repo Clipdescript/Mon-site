@@ -252,9 +252,14 @@
   --card: #f8f9fa;
   --text: #212529;
   --muted: #6c757d;
+  --text-secondary: #6c757d;
+  --primary: #0d6efd;
+  --primary-dark: #0b5ed7;
+  --accent: #0d6efd;
   --settings-bg: rgba(200, 200, 200, 0.3);
   --settings-bg-hover: rgba(200, 200, 200, 0.5);
   --border: #dee2e6;
+  --border-color: #dee2e6;
   --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -264,9 +269,14 @@
   --card: #2d2d2d;
   --text: #f8f9fa;
   --muted: #adb5bd;
+  --text-secondary: #adb5bd;
+  --primary: #0d6efd;
+  --primary-dark: #0b5ed7;
+  --accent: #0d6efd;
   --settings-bg: rgba(100, 100, 100, 0.3);
   --settings-bg-hover: rgba(100, 100, 100, 0.5);
   --border: #495057;
+  --border-color: #495057;
   --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 

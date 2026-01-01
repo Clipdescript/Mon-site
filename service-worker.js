@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mon-site-cache-v10';
+const CACHE_NAME = 'mon-site-cache-v11';
 
 // Fichiers essentiels à mettre en cache
 const urlsToCache = [
@@ -17,25 +17,24 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        console.log('Installation du Service Worker et mise en cache des ressources');
-        // Mettre en cache chaque fichier individuellement pour éviter que l'un échoue bloque tous les autres
+        console.log('Installation du Service Worker');
         return Promise.all(
           urlsToCache.map(url => {
             return cache.add(url).catch(error => {
-              console.warn(`Impossible de mettre en cache ${url}:`, error);
+              console.warn(`Cache ${url} failed:`, error.message);
+              return null;
             });
           })
         );
       })
       .catch(error => {
-        console.error('Erreur lors de l\'installation du Service Worker:', error);
+        console.error('Service Worker install error:', error.message);
       })
   );
 });
 
 // Activation du Service Worker
 self.addEventListener('activate', event => {
-  // Suppression des anciens caches
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
@@ -43,11 +42,10 @@ self.addEventListener('activate', event => {
           .filter(name => name !== CACHE_NAME)
           .map(name => caches.delete(name))
       );
+    }).then(() => {
+      self.clients.claim();
     })
   );
-  
-  // Prendre le contrôle de tous les clients
-  self.clients.claim();
 });
 
 // Gestion des requêtes réseau
@@ -55,39 +53,51 @@ self.addEventListener('fetch', event => {
   const request = event.request;
   const url = new URL(request.url);
   
-  // Ignorer les requêtes non-GET et les requêtes API
-  if (request.method !== 'GET' || 
-      url.hostname.includes('api.') || 
+  // Ignorer les requêtes non-GET et les requêtes externes
+  if (request.method !== 'GET') {
+    return;
+  }
+  
+  // Skip API calls and external services
+  if (url.hostname.includes('api.') || 
       url.hostname.includes('open-meteo.com') || 
-      url.hostname.includes('nominatim.openstreetmap.org')) {
+      url.hostname.includes('nominatim.openstreetmap.org') ||
+      url.hostname.includes('fonts.googleapis.com')) {
     return;
   }
 
-  // Stratégie: D'abord le réseau, puis le cache
+  // Strategy: Network first, then cache
   event.respondWith(
     fetch(request)
       .then(response => {
-        // Mettre en cache la réponse si elle est valide
-        if (response && response.status === 200) {
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME)
-            .then(cache => cache.put(request, responseToCache));
+        if (!response || response.status !== 200 || response.type === 'error') {
+          return response;
         }
+        
+        const responseToCache = response.clone();
+        caches.open(CACHE_NAME)
+          .then(cache => {
+            cache.put(request, responseToCache).catch(err => {
+              console.warn('Cache.put failed:', err.message);
+            });
+          });
         return response;
       })
       .catch(() => {
-        // En cas d'échec, chercher dans le cache
         return caches.match(request)
           .then(cachedResponse => {
             if (cachedResponse) {
               return cachedResponse;
             }
-            // Si c'est une navigation et que la page n'est pas en cache, retourner index.html
             if (request.mode === 'navigate') {
-              return caches.match('./index.html');
+              return caches.match('./index.html').catch(() => {
+                return new Response('Offline - Index not available', {
+                  status: 503,
+                  statusText: 'Service Unavailable'
+                });
+              });
             }
-            // Retourner une réponse d'erreur au lieu de undefined
-            return new Response('Ressource non disponible', {
+            return new Response('Resource not available', {
               status: 503,
               statusText: 'Service Unavailable'
             });

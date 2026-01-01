@@ -15,7 +15,18 @@
     <link rel="icon" type="image/png" href="Logo.png" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="portable.css" media="screen and (max-width: 768px)" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" onerror="loadMaterialIconsFallback()">
+    <style>
+      .material-icons {
+        font-family: 'Material Icons' !important;
+      }
+      @font-face {
+        font-family: 'Material Icons';
+        src: url('data:application/font-woff;base64,AAEAAAAKAIAAAwAgRkZUTUDd/9EAAAC8AAAAHEdERUY0nQvxAAABWAAAACBHUE9TjhG65gAAAcgAAABQR1NVQwAUBRkAAAIcAAAAAE9TLzI+IEpYAAAB+AAAAFZNQXRF4unIkwAAArgAAABgY21hcABCAAAAAA==') format('woff');
+        font-weight: normal;
+        font-style: normal;
+      }
+    </style>
   </head>
   <body>
     <div class="theme-toggle" title="Changer de thème">
@@ -161,9 +172,9 @@
         <span class="separator">|</span>
         <a href="comment-ca-marche.html" class="legal-link">Comment ça marche ?</a>
         <span class="separator">|</span>
-        <a href="#" class="legal-link">Assistance</a>
+        <a href="https://github.com/Clipdescript/Mon-site/issues" target="_blank" class="legal-link">Assistance</a>
         <span class="separator">|</span>
-        <a href="#" class="legal-link">Contact</a>
+        <a href="https://github.com/Clipdescript/Mon-site" target="_blank" class="legal-link">Contact</a>
       </div>
       <div class="copyright">
         2025 - Projet Open Source utilisant des API publiques
