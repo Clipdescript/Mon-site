@@ -82,7 +82,13 @@ function updateClock() {
     day: "2-digit",
   });
 
-  if (dateEl) dateEl.textContent = dateFormatter.format(now);
+  if (dateEl) {
+    const formattedDate = dateFormatter.format(now);
+    const dayOfWeek = formattedDate.split(',')[0];
+    const restOfDate = formattedDate.substring(dayOfWeek.length);
+    const capitalizedDay = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1);
+    dateEl.textContent = capitalizedDay + restOfDate;
+  }
 
   // Mettre à jour le titre avec la salutation appropriée
   if (titleEl) {
