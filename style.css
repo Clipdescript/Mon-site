@@ -1,5 +1,6 @@
-/* Styles pour la page des mentions légales */
-.legal-content {
+/* Styles pour la page des mentions légales et "comment ça marche" */
+.legal-content,
+.how-it-works {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
@@ -10,14 +11,16 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.legal-content h1 {
+.legal-content h1,
+.how-it-works h1 {
   color: var(--primary);
   text-align: center;
   margin-bottom: 30px;
   font-size: 2.2em;
 }
 
-.legal-content h2 {
+.legal-content h2,
+.how-it-works h3 {
   color: var(--primary);
   margin: 15px 0 5px 0;
   font-size: 1.5em;
@@ -26,7 +29,8 @@
   display: inline-block;
 }
 
-.legal-content section {
+.legal-content section,
+.how-it-works .feature {
   max-width: 800px;
   margin: 0.5rem auto 1rem;
   padding: 0;
